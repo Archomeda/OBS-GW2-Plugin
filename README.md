@@ -39,7 +39,7 @@ plugin is installed for more information)
 ## Requirements
 - Windows Vista SP2+, 7 SP1+, or 8 (32-bit or 64-bit) with [Open Broadcaster
 Software](https://obsproject.com/)
-- [.NET Framework 4.5](www.microsoft.com/download/details.aspx?id=30653)
+- [.NET Framework 4.5](http://www.microsoft.com/download/details.aspx?id=30653)
 - [CLR Host Plugin](https://obsproject.com/forum/resources/clr-host-plugin.21/)
 - Guild Wars 2 (well... obviously)
 
