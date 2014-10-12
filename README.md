@@ -14,13 +14,13 @@ a text can be updated. If you feel there's something missing that you would like
 to have included, like displaying your race name automatically, you can add it
 yourself! You can script your own formatters and variables in Lua!
 
-- [Features](#Features)
-- [Requirements](#Requirements)
-- [Downloads](#Downloads)
-- [Installation](#Installation)
-- [Contribute](#Contribute)
-- [Planned features](#Planned features)
-- [Legal stuff](#Legal stuff)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Downloads](#downloads)
+- [Installation](#installation)
+- [Contribute](#contribute)
+- [Planned features](#planned-features)
+- [Legal stuff](#legal-stuff)
 
 
 ## Features
