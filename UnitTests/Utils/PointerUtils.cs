@@ -29,24 +29,6 @@ namespace ObsGw2Plugin.UnitTests.Utils
                 target[i] = source[i];
         }
 
-        unsafe public static void CopyPointerToArray(float* source, float[] target, int length)
-        {
-            for (int i = 0; i < length; i++)
-                target[i] = source[i];
-        }
-
-        unsafe public static void CopyPointerToArray(char* source, char[] target, int length)
-        {
-            for (int i = 0; i < length; i++)
-                target[i] = source[i];
-        }
-
-        unsafe public static void CopyPointerToArray(byte* source, byte[] target, int length)
-        {
-            for (int i = 0; i < length; i++)
-                target[i] = source[i];
-        }
-
         public static byte[] GetBytes(object structure)
         {
             int size = Marshal.SizeOf(structure);

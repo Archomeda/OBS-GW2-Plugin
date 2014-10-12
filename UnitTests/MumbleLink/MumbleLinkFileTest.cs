@@ -68,10 +68,8 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             Assert.AreEqual(cameraFront, mumbleLinkFile.CameraFront, "CameraFront");
             Assert.AreEqual(cameraTop, mumbleLinkFile.CameraTop, "CameraTop");
             Assert.AreEqual(identity, mumbleLinkFile.Identity, "Identity");
-            byte[] contextActual = new byte[context_len];
-            PointerUtils.CopyPointerToArray(mumbleLinkFile.Context, contextActual, (int)context_len);
-            CollectionAssert.AreEqual(context, contextActual, "Context");
-            Assert.AreEqual(context_len, mumbleLinkFile.ContextLength, "ContextLength");
+            CollectionAssert.AreEqual(context, mumbleLinkFile.Context, "Context");
+            Assert.AreEqual(context_len, mumbleLinkFile.Context.Length, "ContextLength");
             Assert.AreEqual(description, mumbleLinkFile.Description, "Description");
         }
 

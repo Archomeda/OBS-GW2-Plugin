@@ -34,9 +34,7 @@ namespace ObsGw2Plugin.MumbleLink
 
         string Identity { get; set; }
 
-        unsafe byte* Context { get; set; }
-
-        uint ContextLength { get; set; }
+        byte[] Context { get; set; }
 
         string Description { get; set; }
 

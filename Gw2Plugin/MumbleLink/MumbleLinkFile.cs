@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -159,9 +160,7 @@ namespace ObsGw2Plugin.MumbleLink
             }
         }
 
-        unsafe public byte* Context { get; set; }
-
-        public uint ContextLength { get; set; }
+        public byte[] Context { get; set; }
 
         public string Description
         {
@@ -189,8 +188,8 @@ namespace ObsGw2Plugin.MumbleLink
             this.CameraFront = new Vector3(data.fCameraFront[0], data.fCameraFront[1], data.fCameraFront[2]);
             this.CameraTop = new Vector3(data.fCameraTop[0], data.fCameraTop[1], data.fCameraTop[2]);
             this.Identity = new string(data.identity);
-            this.Context = data.context;
-            this.ContextLength = data.context_len;
+            this.Context = new byte[data.context_len];
+            Marshal.Copy((IntPtr)data.context, this.Context, 0, this.Context.Length);
             this.Description = new string(data.description);
 
             this.IsValid = true;
