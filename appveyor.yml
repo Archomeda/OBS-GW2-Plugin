@@ -2,3 +2,12 @@ version: 0.0.{build}
 
 before_build:
   - nuget restore
+
+configuration:
+  - Debug
+  - Release
+
+artifacts:
+  - path: Gw2Plugin/bin/Release
+    name: OBS GW2 Plugin
+    type: zip
