@@ -1,4 +1,5 @@
 # Guild Wars 2 Plugin for Open Broadcaster Software
+[![Build status](https://ci.appveyor.com/api/projects/status/r46833nfb6cf76jk?svg=true)](https://ci.appveyor.com/project/Archomeda/obs-gw2-plugin)
 
 In short, this plugin adds some Guild Wars 2 related stuff in Open Broadcaster
 Software that you can use as text source. It features the basic configuration
