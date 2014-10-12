@@ -32,6 +32,7 @@ team color, fps, build id and server IP (more are available in scripts)
 built-in ones are not enough (be sure to check the
 `plugins/Gw2Plugin/README.txt` file in the installation folder of OBS when this
 plugin is installed for more information)
+- Checks for new releases on GitHub automatically in a non-intrusive way
 - More planned...
 
 
@@ -77,12 +78,6 @@ bound to make mistakes somewhere)
 *Please note that, although these features are planned, I cannot guarantee when
 it will be implemented, if at all. I also cannot guarantee that it will be
 implemented as advertised; everything is subject to change.*
-
-### Update notification
-A new version means new features, bugfixes, etc., but no one wants to manually
-check if some software has been updated. Because of this, having a notification
-when a new update of the plugin is available is very useful. I want to have this
-feature ready before I release the first public version.
 
 ### Guild Wars 2 API
 Supporting the official Guild Wars 2 API is an important feature. For example,
