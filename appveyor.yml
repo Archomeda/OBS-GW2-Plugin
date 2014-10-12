@@ -3,9 +3,9 @@ version: 0.0.{build}
 assembly_info:
     patch: true
     file: AssemblyInfo.*
-    assembly_version: "{version}"
-    assembly_file_version: "{version}"
-    assembly_informational_version: "{version}"
+    assembly_version: {version}
+    assembly_file_version: {version}
+    assembly_informational_version: {version}
 
 before_build:
   - nuget restore
@@ -16,5 +16,5 @@ configuration:
 
 artifacts:
   - path: Gw2Plugin/bin/Release
-    name: "OBS GW2 Plugin v{version}"
+    name: OBS GW2 Plugin v$(appveyor_build_version)
     type: zip
