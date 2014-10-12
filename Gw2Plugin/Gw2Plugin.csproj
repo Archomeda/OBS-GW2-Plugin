@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C2E1A3AE-7279-4DDB-9ED1-47DEC101910D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ObsGw2Plugin</RootNamespace>
+    <AssemblyName>Gw2Plugin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr4.Runtime.net35">
+      <HintPath>..\packages\MoonSharp.0.5.5\lib\Antlr4.Runtime.net35.dll</HintPath>
+    </Reference>
+    <Reference Include="CLRHost.Interop">
+      <HintPath>..\3rd party\CLRHost.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GW2.NET">
+      <HintPath>..\packages\GW2.NET.0.9.11.0\lib\net40\GW2.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="GW2.NET.Core">
+      <HintPath>..\packages\GW2.NET.0.9.11.0\lib\net40\GW2.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MoonSharp.Interpreter">
+      <HintPath>..\packages\MoonSharp.0.5.5\lib\MoonSharp.Interpreter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.2.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Debug.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\DynValueExtensions.cs" />
+    <Compile Include="Extensions\XElementExtensions.cs" />
+    <Compile Include="MumbleLink\Gw2MumbleLinkFile.cs" />
+    <Compile Include="MumbleLink\MumbleLinkConnector.cs" />
+    <Compile Include="MumbleLink\IMumbleLinkConnector.cs" />
+    <Compile Include="MumbleLink\LinkedMem.cs" />
+    <Compile Include="MumbleLink\MumbleLinkStateEventArgs.cs" />
+    <Compile Include="MumbleLink\MumbleLinkFile.cs" />
+    <Compile Include="MumbleLink\IMumbleLinkFile.cs" />
+    <Compile Include="MumbleLink\IMumbleLinkManager.cs" />
+    <Compile Include="MumbleLink\MumbleLinkManager.cs" />
+    <Compile Include="MumbleLink\Vector3.cs" />
+    <Compile Include="Scripting\IHookableScript.cs" />
+    <Compile Include="Scripting\ICategorizableScript.cs" />
+    <Compile Include="Scripting\IScriptsManager.cs" />
+    <Compile Include="Scripting\IScript.cs" />
+    <Compile Include="Scripting\IScriptWithCachedLocals.cs" />
+    <Compile Include="Scripting\IScriptWithCachedValue.cs" />
+    <Compile Include="Scripting\ScriptsManager.cs" />
+    <Compile Include="Scripting\Variables\IScriptVariable.cs" />
+    <Compile Include="Scripting\Exceptions\MissingGlobalException.cs" />
+    <Compile Include="Scripting\Formatters\ScriptFormatter.cs" />
+    <Compile Include="Scripting\Formatters\IScriptFormatter.cs" />
+    <Compile Include="Gw2InfoSource.cs" />
+    <Compile Include="Gw2InfoSourceFactory.cs" />
+    <Compile Include="Gw2Plugin.cs" />
+    <Compile Include="Gw2PluginConfigurationDialog.xaml.cs">
+      <DependentUpon>Gw2PluginConfigurationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\ScriptBase.cs" />
+    <Compile Include="Scripting\Variables\ScriptVariable.cs" />
+    <Compile Include="TextImage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Gw2PluginConfigurationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gw2Plugin\ScriptFormatters\BuildId.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\Fps.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\TeamColor.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\GameModeName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\ShardId.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\WorldId.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\ServerAddress.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\PercentSignEscape.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\ProfessionName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\Examples\Example_RaceName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\Fps2.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\Fps.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\TeamColor.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\GameModeName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptVariables\ProfessionName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Gw2Plugin\ScriptFormatters\CharacterName.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gw2Plugin\README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <!-- http://www.digitallycreated.net/Blog/61/combining-multiple-assemblies-into-a-single-exe-for-a-wpf-application -->
+  <Target Name="AfterResolveReferences">
+    <ItemGroup>
+      <EmbeddedResource Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll' And '%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' != 'CLRHost.Interop.dll'">
+        <LogicalName>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+  <Target Name="AfterBuild">
+    <Message Importance="high" Text="Removing referenced libraries..." />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" Condition="'%(Filename)%(Extension)' != 'CLRHost.Interop.dll'" />
+    <ItemGroup>
+      <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
+      <Directories>
+        <Files>$([System.IO.Directory]::GetFiles("%(Directories.Identity)", "*", System.IO.SearchOption.AllDirectories).get_Length())</Files>
+      </Directories>
+    </ItemGroup>
+    <Message Importance="high" Text="Removing empty folders..." />
+    <RemoveDir Directories="@(Directories)" Condition="%(Files)=='0'" />
+  </Target>
+</Project>

@@ -1,0 +1,42 @@
+﻿TODOS TO CONSIDER (NOT A ROADMAP):
+ - Add support for multiple lines of text
+   - Instead of having one big line of text, split it into multiple lines
+   - This will replace the current system with only one line
+   - Each line is visible until the end of the line or for a set amount of time (maybe both, and/or relationship?)
+   - Transition will probably be slide up/down, need to check if this is viable
+   - When a line has no text available, skip it
+   - Add an option for skipping lines when the Mumble Link is not available
+   - Add an option to select when a line is visible based upon various variables
+ - Add support for the GW2 API (API library already included, but not yet used at the moment)
+ - Provide moooaaaar examples
+
+
+
+identity:
+{"name": "xxxxx","profession": 2,"map_id": 50,"world_id": 268435474,"team_color_id": 0,"commander": false}
+- profession:
+    1 - Guardian
+    2 - Warrior
+    3 - Engineer
+    4 - Ranger
+    5 - Thief
+    6 - Elementalist
+    7 - Mesmer
+    8 - Necromancer
+
+- team_color_id:
+    0   - None
+    9   - PvP/WvW Blue
+    55  - WvW Green
+    376 - PvP/WvW Red
+
+mapType:
+    2  - PvP Maps
+    4  - PvE Hero's Canton, Cragstead (probably every PvE instance)
+    5  - PvE Lion's Arch (probably every PvE map)
+    9  - WvW Eternal Battlegrounds
+    10 - WvW Blue Borderlands
+    11 - WvW Green Borderlands
+    12 - WvW Red Borderlands
+    14 - WvW Obsidian Sanctum
+    15 - WvW Edge of the Mists
