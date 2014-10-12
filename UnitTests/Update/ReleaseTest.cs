@@ -81,7 +81,6 @@ namespace ObsGw2Plugin.UnitTests.Update
             Assert.IsFalse(release.Equals(obj));
         }
 
-
         [Test]
         public void InequalityNull()
         {
@@ -90,6 +89,14 @@ namespace ObsGw2Plugin.UnitTests.Update
             Assert.IsFalse(release.Equals(null), "Equals");
             Assert.IsFalse(release == null, "==");
             Assert.IsTrue(release != null, "!=");
+        }
+
+        [Test]
+        public void InequalityNull2()
+        {
+            Release release = null;
+            Assert.IsTrue(release == null, "==");
+            Assert.IsFalse(release != null, "!=");
         }
     }
 }

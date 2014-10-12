@@ -21,6 +21,12 @@ namespace ObsGw2Plugin.Update
 
         public static bool operator ==(Release releaseA, Release releaseB)
         {
+            if (object.ReferenceEquals(releaseA, releaseB))
+                return true;
+
+            if ((object)releaseA == null || (object)releaseB == null)
+                return false;
+
             return releaseA.Equals(releaseB);
         }
 

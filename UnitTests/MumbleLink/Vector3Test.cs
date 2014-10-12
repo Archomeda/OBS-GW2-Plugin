@@ -83,7 +83,6 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             Assert.IsFalse(vector.Equals(obj), "Equals");
         }
 
-
         [Test]
         public void InequalityNull()
         {
