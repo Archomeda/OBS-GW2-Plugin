@@ -7,17 +7,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CLROBS;
+using Newtonsoft.Json;
 using ObsGw2Plugin.MumbleLink;
 using ObsGw2Plugin.Scripting;
 using ObsGw2Plugin.Scripting.Formatters;
 using ObsGw2Plugin.Scripting.Variables;
+using ObsGw2Plugin.Update;
 
 namespace ObsGw2Plugin
 {
     public class Gw2Plugin : AbstractPlugin
     {
-        public static Gw2Plugin Instance { get; private set; }
-
         public Gw2Plugin()
         {
             Instance = this;
@@ -31,33 +31,105 @@ namespace ObsGw2Plugin
             this.ScriptsManager.UseMumbleLinkFile(this.MumbleLinkManager.MumbleLinkFile);
         }
 
+
         public MumbleLinkManager MumbleLinkManager { get; protected set; }
 
         public ScriptsManager ScriptsManager { get; protected set; }
+
+        public Configuration Configuration { get; protected set; }
 
 
         public override bool LoadPlugin()
         {
             Debug.AttachDebugger();
 
-            API.Instance.AddImageSourceFactory(new Gw2InfoSourceFactory());
-
-            RegisterScriptsInFolder<ScriptVariable>(Path.Combine(AssemblyDirectory, "Gw2Plugin", "ScriptVariables"), this.ScriptsManager.RegisterScriptVariable);
-            RegisterScriptsInFolder<ScriptVariable>(Path.Combine(API.Instance.GetPluginDataPath(), "Gw2Plugin", "CustomScriptVariables"), this.ScriptsManager.RegisterScriptVariable);
-            RegisterScriptsInFolder<ScriptFormatter>(Path.Combine(AssemblyDirectory, "Gw2Plugin", "ScriptFormatters"), this.ScriptsManager.RegisterScriptFormatter);
-            RegisterScriptsInFolder<ScriptFormatter>(Path.Combine(API.Instance.GetPluginDataPath(), "Gw2Plugin", "CustomScriptFormatters"), this.ScriptsManager.RegisterScriptFormatter);
-
-            this.MumbleLinkManager.StartListener();
+            this.InitConfiguration();
+            this.InitReleaseCheck();
+            this.InitScripts();
+            this.InitBackgroundTasks();
+            this.InitPluginRelatedStuff();
 
             return true;
         }
 
-
         public override void UnloadPlugin()
         {
+            this.UnInitSaveConfiguration();
+            this.UnInitBackgroundTasks();
+        }
+
+
+        #region Initialization stuff
+
+        private void InitConfiguration()
+        {
+            // Load configuration
+            string configPath = Path.Combine(API.Instance.GetPluginDataPath(), "Gw2PluginConfig.json");
+            if (File.Exists(configPath))
+                this.Configuration = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(configPath));
+            else
+                this.Configuration = new Configuration();
+        }
+
+        private void InitReleaseCheck()
+        {
+            // Look for a new release if the last check is at least 1 hour ago
+            if (this.Configuration.LastVersionCheck + TimeSpan.FromHours(1) <= DateTime.Now)
+            {
+                ReleaseChecker releaseChecker = new ReleaseChecker();
+                Release newRelease = releaseChecker.Check().Result;
+                if (newRelease != null)
+                {
+                    this.Configuration.LastVersionRelease = newRelease.Version;
+                    this.Configuration.LastVersionReleaseUrl = newRelease.Url;
+                }
+                this.Configuration.LastVersionCheck = DateTime.Now;
+            }
+        }
+
+        private void InitScripts()
+        {
+            // Register scripts
+            RegisterScriptsInFolder<ScriptVariable>(Path.Combine(AssemblyDirectory, "Gw2Plugin", "ScriptVariables"), this.ScriptsManager.RegisterScriptVariable);
+            RegisterScriptsInFolder<ScriptVariable>(Path.Combine(API.Instance.GetPluginDataPath(), "Gw2Plugin", "CustomScriptVariables"), this.ScriptsManager.RegisterScriptVariable);
+            RegisterScriptsInFolder<ScriptFormatter>(Path.Combine(AssemblyDirectory, "Gw2Plugin", "ScriptFormatters"), this.ScriptsManager.RegisterScriptFormatter);
+            RegisterScriptsInFolder<ScriptFormatter>(Path.Combine(API.Instance.GetPluginDataPath(), "Gw2Plugin", "CustomScriptFormatters"), this.ScriptsManager.RegisterScriptFormatter);
+        }
+
+        private void InitBackgroundTasks()
+        {
+            // Start background tasks
+            this.MumbleLinkManager.StartListener();
+        }
+
+        private void InitPluginRelatedStuff()
+        {
+            // Add plugin stuff
+            API.Instance.AddImageSourceFactory(new Gw2InfoSourceFactory());
+        }
+
+        #endregion
+
+
+        #region Uninitialization stuff
+
+        private void UnInitSaveConfiguration()
+        {
+            // Save configuration
+            string configPath = Path.Combine(API.Instance.GetPluginDataPath(), "Gw2PluginConfig.json");
+            File.WriteAllText(configPath, JsonConvert.SerializeObject(this.Configuration));
+        }
+
+        private void UnInitBackgroundTasks()
+        {
+            // Stop background tasks
             this.MumbleLinkManager.StopListener();
         }
 
+        #endregion
+
+
+        #region Helpers
 
         private void RegisterScriptsInFolder<T>(string path, Action<T> registerAction) where T : IScript, new()
         {
@@ -85,7 +157,6 @@ namespace ObsGw2Plugin
         }
 
 
-
         public static string AssemblyDirectory
         {
             get
@@ -96,6 +167,11 @@ namespace ObsGw2Plugin
                 return Path.GetDirectoryName(path);
             }
         }
+
+        #endregion
+
+
+        public static Gw2Plugin Instance { get; private set; }
 
 
         static Gw2Plugin()

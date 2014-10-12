@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -31,7 +33,6 @@ namespace ObsGw2Plugin
         private TextImage textImage = new TextImage();
         private Timer previewUpdateTimer = new Timer(1d / 60);
         private string oldText = "";
-
 
 
         public Gw2PluginConfigurationDialog(XElement data)
@@ -65,6 +66,27 @@ namespace ObsGw2Plugin
             this.integerUpDownScrollingMaxWidth.Value = this.config.GetInt("scrollingMaxWidth", this.integerUpDownScrollingMaxWidth.Value.Value);
             this.comboBoxScrollingAlign.SelectedValue = this.config.GetString("scrollingAlign", this.comboBoxScrollingAlign.SelectedValue.ToString());
             this.checkBoxScrollingLargeOnly.IsChecked = this.config.GetBoolean("scrollingLargeOnly", this.checkBoxScrollingLargeOnly.IsChecked.Value);
+
+            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            this.textBlockVersionInfo.Inlines.Clear();
+            this.textBlockVersionInfo.Inlines.Add(new Run(string.Format("Version {0}", currentVersion.ToString(3))));
+            Version liveVersion = Gw2Plugin.Instance.Configuration.LastVersionRelease;
+            string liveVersionUrl = Gw2Plugin.Instance.Configuration.LastVersionReleaseUrl;
+            if (liveVersion > currentVersion && !string.IsNullOrEmpty(liveVersionUrl))
+            {
+                string liveVersionString = liveVersion.Build > 0 ? liveVersion.ToString(3) : liveVersion.ToString(2);
+                Hyperlink hyperlink = new Hyperlink(new Run(string.Format("Newer version {0} is available", liveVersionString)))
+                {
+                    NavigateUri = new Uri(liveVersionUrl)
+                };
+                hyperlink.RequestNavigate += (s_, e_) =>
+                {
+                    Process.Start(new ProcessStartInfo(e_.Uri.AbsoluteUri));
+                    e_.Handled = true;
+                };
+                this.textBlockVersionInfo.Inlines.Add(new Run(" - "));
+                this.textBlockVersionInfo.Inlines.Add(hyperlink);
+            }
 
             this.previewUpdateTimer.Elapsed += previewUpdateTimer_Elapsed;
             this.previewUpdateTimer.Start();

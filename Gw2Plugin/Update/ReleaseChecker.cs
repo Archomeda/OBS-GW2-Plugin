@@ -14,6 +14,13 @@ namespace ObsGw2Plugin.Update
     {
         public const string GitHubApiReleasesUrl = "https://api.github.com/repos/Archomeda/OBS-GW2-Plugin/releases";
 
+
+        public ReleaseChecker()
+        {
+            this.AsyncDownloader = new AsyncDownloader();
+        }
+
+
         public IAsyncDownloader AsyncDownloader { get; protected set; }
 
         public void UseAsyncDownloader<T>() where T : IAsyncDownloader, new()

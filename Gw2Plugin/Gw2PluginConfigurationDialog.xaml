@@ -223,5 +223,6 @@
         <GroupBox Header="Preview" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Height="101" Width="350">
             <Image x:Name="imagePreview" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="{Binding SelectedValue, ElementName=comboBoxScrollingAlign}"/>
         </GroupBox>
+        <TextBlock x:Name="textBlockVersionInfo" Margin="10,0,170,13" TextWrapping="Wrap" Text="Version and new release information should be placed here automatically" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
