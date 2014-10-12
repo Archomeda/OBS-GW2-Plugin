@@ -25,7 +25,7 @@ namespace ObsGw2Plugin.Update
                 return true;
 
             if ((object)releaseA == null || (object)releaseB == null)
-                return false;
+                return object.Equals(releaseA, releaseB);
 
             return releaseA.Equals(releaseB);
         }
@@ -45,7 +45,15 @@ namespace ObsGw2Plugin.Update
 
         public bool Equals(Release other)
         {
-            return this.Version.Equals(other.Version) && this.Url.Equals(other.Url);
+            if (other == null)
+                return false;
+
+            bool equals = true;
+            if (this.Version != null)
+                equals = this.Version.Equals(other.Version);
+            if (this.Url != null)
+                equals = equals && this.Url.Equals(other.Url);
+            return equals;
         }
 
         public override int GetHashCode()
@@ -53,8 +61,10 @@ namespace ObsGw2Plugin.Update
             unchecked
             {
                 int hash = 13;
-                hash = hash * 7 + this.Version.GetHashCode();
-                hash = hash * 7 + this.Url.GetHashCode();
+                if (this.Version != null)
+                    hash = hash * 7 + this.Version.GetHashCode();
+                if (this.Url != null)
+                    hash = hash * 7 + this.Url.GetHashCode();
                 return hash;
             }
         }

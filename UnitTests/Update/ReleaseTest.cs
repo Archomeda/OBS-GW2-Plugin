@@ -62,6 +62,14 @@ namespace ObsGw2Plugin.UnitTests.Update
         }
 
         [Test]
+        public void EqualityWithNullProperties()
+        {
+            Release release = new Release(null, null);
+            Assert.DoesNotThrow(() => release.Equals(release));
+            Assert.DoesNotThrow(() => release.GetHashCode());
+        }
+
+        [Test]
         public void InequalityVector3()
         {
             Release releaseA = new Release(new Version(1, 0), "http://url.to/some?download#location");
@@ -84,11 +92,14 @@ namespace ObsGw2Plugin.UnitTests.Update
         [Test]
         public void InequalityNull()
         {
-            object release = new Release(new Version(1, 0), "http://url.to/some?download#location");
+            Release releaseA = new Release(new Version(1, 0), "http://url.to/some?download#location");
+            Release releaseB = null;
 
-            Assert.IsFalse(release.Equals(null), "Equals");
-            Assert.IsFalse(release == null, "==");
-            Assert.IsTrue(release != null, "!=");
+            Assert.IsFalse(releaseA.Equals(releaseB), "Equals");
+            Assert.IsFalse(releaseA == releaseB, "A == B");
+            Assert.IsTrue(releaseA != releaseB, "A != B");
+            Assert.IsFalse(releaseB == releaseA, "B == A");
+            Assert.IsTrue(releaseB != releaseA, "B != A");
         }
 
         [Test]
