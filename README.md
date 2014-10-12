@@ -37,27 +37,39 @@ plugin is installed for more information)
 
 
 ## Requirements
-- Windows Vista SP2+/7/8 (32-bit or 64-bit) with [Open Broadcaster
+- Windows Vista SP2+, 7 SP1+, or 8 (32-bit or 64-bit) with [Open Broadcaster
 Software](https://obsproject.com/)
-- .NET Framework 4.5
+- [.NET Framework 4.5](www.microsoft.com/download/details.aspx?id=30653)
 - [CLR Host Plugin](https://obsproject.com/forum/resources/clr-host-plugin.21/)
-(included with the download as a slighly newer version is needed than the version
-that is offered as download; and if I'm correct, this plugin uses the same
-version of CLR Host Plugin as the [CLR Browser Source Plugin](https://obsproject.com/forum/resources/clr-browser-source-plugin.22/),
-so there is no collision if you happen to use that plugin too)
 - Guild Wars 2 (well... obviously)
 
-## Downloads
-As this plugin is in active development and not yet ready for release, downloads
-are currently not available yet.
 
-If you really want to try this out and you're not shy of compiling stuff
-yourself, go ahead! This stuff is written in C# and uses Visual Studio 2013. You
-need to know how to do this, because I'm not going to explain it.
+## Downloads
+*As this plugin is in active development and not yet ready for a final release,
+updates may happen frequently. Because of this, downloads are not yet available
+on GitHub and you need to check for development releases manually.*
+
+You can find the [latest development releases on AppVeyor](https://ci.appveyor.com/project/Archomeda/obs-gw2-plugin/history).
+Just click on the latest version that has been successfully built. From there,
+go to *Configuration: Release*, *Artifacts* and download the zip archive that
+contains the plugin.
+
+If, for some reason, the latest build does not work as intended (they are
+development builds for a reason!), you can always try an older version.
 
 
 ## Installation
-This information comes as soon as possible when the downloads are available.
+*Be sure that you have downloaded and installed the
+[CLR Host Plugin](https://obsproject.com/forum/resources/clr-host-plugin.21/)
+before installing this plugin.*
+
+After downloading the plugin, go to your Open Broadcaster Software installation
+directory. Go into the directory `plugins/CLRHostPlugin` and unzip the
+contents of the zip file. It's possible that you will be asked to overwrite
+`CLRHost.Interop.dll`, please do so. This plugin uses a slightly newer version
+than the version that is included in the CLR Host Plugin. If you happen to use
+the [CLR Browser Source Plugin](https://obsproject.com/forum/resources/clr-browser-source-plugin.22/)
+as well, don't worry, that plugin uses the same version of the file.
 
 
 ## Contribute
