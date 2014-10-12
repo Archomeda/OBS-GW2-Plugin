@@ -22,7 +22,6 @@ namespace ObsGw2Plugin.UnitTests.Update
         {
             AsyncDownloader downloader = new AsyncDownloader();
             string url = "http://localhost:51234/";
-            int timeout = 250;
             string expected = "That's a nice string you have there";
 
             HttpListener listener = new HttpListener();
@@ -39,11 +38,12 @@ namespace ObsGw2Plugin.UnitTests.Update
                 }
             }, null);
 
-            string actual = downloader.DownloadAsync(url, timeout).Result;
+            string actual = downloader.DownloadAsync(url).Result;
 
-            Assert.AreEqual(expected, actual);
             listener.Stop();
             listener.Close();
+
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]

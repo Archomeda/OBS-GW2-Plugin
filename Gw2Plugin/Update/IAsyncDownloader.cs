@@ -9,6 +9,8 @@ namespace ObsGw2Plugin.Update
 {
     public interface IAsyncDownloader
     {
+        Task<string> DownloadAsync(string url);
+
         Task<string> DownloadAsync(string url, int timeout);
     }
 }

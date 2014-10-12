@@ -11,11 +11,18 @@ namespace ObsGw2Plugin.Update
 {
     public class AsyncDownloader : IAsyncDownloader
     {
+        public async Task<string> DownloadAsync(string url)
+        {
+            return await this.DownloadAsync(url, 0);
+        }
+
         public async Task<string> DownloadAsync(string url, int timeout)
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                httpClient.Timeout = TimeSpan.FromMilliseconds(timeout);
+                if (timeout > 0)
+                    httpClient.Timeout = TimeSpan.FromMilliseconds(timeout);
+
                 using (HttpResponseMessage response = await httpClient.GetAsync(url))
                 {
                     return await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
