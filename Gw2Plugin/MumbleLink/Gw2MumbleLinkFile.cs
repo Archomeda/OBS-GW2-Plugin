@@ -110,7 +110,7 @@ namespace ObsGw2Plugin.MumbleLink
             get { return this.serverAddress; }
             set
             {
-                if ((this.serverAddress != null && !this.serverAddress.Equals(value)) || (this.serverAddress == null && value != null))
+                if (!object.Equals(this.serverAddress, value))
                 {
                     this.serverAddress = value;
                     this.OnNotifyPropertyChanged("ServerAddress");
