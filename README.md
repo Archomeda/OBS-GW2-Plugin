@@ -50,9 +50,10 @@ updates may happen frequently. Because of this, downloads are not yet available
 on GitHub and you need to check for development releases manually.*
 
 You can find the [latest development releases on AppVeyor](https://ci.appveyor.com/project/Archomeda/obs-gw2-plugin/history).
-Just click on the latest version that has been successfully built. From there,
-go to *Configuration: Release*, *Artifacts* and download the zip archive that
-contains the plugin.
+Just click on the latest version that has been successfully built (be sure that
+you select the latest build from the master branch, unless you want otherwise).
+From there, go to *Configuration: Release*, *Artifacts* and download the zip
+archive that contains the plugin.
 
 If, for some reason, the latest build does not work as intended (they are
 development builds for a reason!), you can always try an older version.
