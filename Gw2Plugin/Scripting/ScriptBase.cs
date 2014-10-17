@@ -81,8 +81,7 @@ namespace ObsGw2Plugin.Scripting
         {
             DynValue oldCachedValue = this.CachedVariable;
             this.CachedVariable = this.GetLiveVariable();
-            return (this.CachedVariable != null && !this.CachedVariable.Equals(oldCachedValue))
-                || (this.CachedVariable == null && oldCachedValue != null);
+            return object.Equals(this.CachedVariable, oldCachedValue);
         }
 
     }
