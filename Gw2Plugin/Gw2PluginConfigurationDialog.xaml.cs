@@ -19,6 +19,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CLROBS;
 using ObsGw2Plugin.Extensions;
+using ObsGw2Plugin.Imaging;
+using ObsGw2Plugin.Imaging.Animations;
 using ObsGw2Plugin.Scripting;
 using ObsGw2Plugin.Scripting.Formatters;
 
@@ -30,17 +32,23 @@ namespace ObsGw2Plugin
     public partial class Gw2PluginConfigurationDialog : Window, IDisposable
     {
         private XElement config;
-        private TextImage textImage = new TextImage();
-        private Timer previewUpdateTimer = new Timer(1d / 60);
         private string oldText = "";
+        private Timer previewUpdateTimer = new Timer(1d / 60);
+
+        private TextImage textImage = new TextImage();
+        private TextImage scrollingDelimiterImage = new TextImage();
+        private ScrollingAnimation scrollingAnimation = new ScrollingAnimation();
 
 
         public Gw2PluginConfigurationDialog(XElement data)
         {
             InitializeComponent();
 
-            Binding binding = new Binding("Image") { Source = this.textImage };
-            this.imagePreview.SetBinding(Image.SourceProperty, binding);
+            this.scrollingAnimation.DelimiterImage = this.scrollingDelimiterImage;
+            this.textImage.Animators.Add(this.scrollingAnimation);
+
+            Binding binding = new Binding("Bitmap") { Source = this.textImage };
+            this.imagePreview.SetBinding(System.Windows.Controls.Image.SourceProperty, binding);
 
             this.config = data;
 
@@ -153,7 +161,7 @@ namespace ObsGw2Plugin
                     this.textImage.Text = text;
                 }
 
-                this.textImage.RenderNextFrame();
+                this.textImage.AnimateFrame();
             });
         }
 
@@ -255,38 +263,49 @@ namespace ObsGw2Plugin
             // If the index of the new selection is higher than the previous one,
             // this will fuck up the selection in this event handler.
             if (e.AddedItems.Count > 0)
+            {
                 this.textImage.FontFamily = new FontFamily(e.AddedItems[0].ToString());
+                this.scrollingDelimiterImage.FontFamily = new FontFamily(e.AddedItems[0].ToString());
+            }
         }
 
         private void integerUpDownFontSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.integerUpDownFontSize.Value.HasValue)
+            {
                 this.textImage.FontSize = this.integerUpDownFontSize.Value.Value;
+                this.scrollingDelimiterImage.FontSize = this.integerUpDownFontSize.Value.Value;
+            }
         }
 
         private void colorPickerTextColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
             this.textImage.TextColor = this.colorPickerTextColor.SelectedColor;
+            this.scrollingDelimiterImage.TextColor = this.colorPickerTextColor.SelectedColor;
         }
 
         private void colorPickerBackColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
             this.textImage.BackColor = this.colorPickerBackColor.SelectedColor;
+            this.scrollingDelimiterImage.BackColor = this.colorPickerBackColor.SelectedColor;
         }
 
         private void checkBoxBold_CheckedChanged(object sender, RoutedEventArgs e)
         {
             this.textImage.EffectBold = this.checkBoxBold.IsChecked == true;
+            this.scrollingDelimiterImage.EffectBold = this.checkBoxBold.IsChecked == true;
         }
 
         private void checkBoxItalic_CheckedChanged(object sender, RoutedEventArgs e)
         {
             this.textImage.EffectItalic = this.checkBoxItalic.IsChecked == true;
+            this.scrollingDelimiterImage.EffectItalic = this.checkBoxItalic.IsChecked == true;
         }
 
         private void checkBoxUnderline_CheckedChanged(object sender, RoutedEventArgs e)
         {
             this.textImage.EffectUnderline = this.checkBoxUnderline.IsChecked == true;
+            this.scrollingDelimiterImage.EffectUnderline = this.checkBoxUnderline.IsChecked == true;
         }
 
 
@@ -296,8 +315,12 @@ namespace ObsGw2Plugin
                 && this.doubleUpDownOutlineThickness != null && this.doubleUpDownOutlineThickness.Value.HasValue)
             {
                 this.textImage.OutlineColor = this.colorPickerOutlineColor.SelectedColor;
+                this.scrollingDelimiterImage.OutlineColor = this.colorPickerOutlineColor.SelectedColor;
                 if (this.doubleUpDownOutlineThickness.Value.HasValue)
+                {
                     this.textImage.OutlineThickness = this.doubleUpDownOutlineThickness.Value.Value;
+                    this.scrollingDelimiterImage.OutlineThickness = this.doubleUpDownOutlineThickness.Value.Value;
+                }
             }
         }
 
@@ -305,61 +328,77 @@ namespace ObsGw2Plugin
         {
             this.textImage.OutlineColor = Colors.Transparent;
             this.textImage.OutlineThickness = 0;
+            this.scrollingDelimiterImage.OutlineColor = Colors.Transparent;
+            this.scrollingDelimiterImage.OutlineThickness = 0;
         }
 
         private void colorPickerOutlineColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
             this.textImage.OutlineColor = this.colorPickerOutlineColor.SelectedColor;
+            this.scrollingDelimiterImage.OutlineColor = this.colorPickerOutlineColor.SelectedColor;
         }
 
         private void doubleUpDownOutlineThickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.doubleUpDownOutlineThickness.Value.HasValue)
+            {
                 this.textImage.OutlineThickness = this.doubleUpDownOutlineThickness.Value.Value;
+                this.scrollingDelimiterImage.OutlineThickness = this.doubleUpDownOutlineThickness.Value.Value;
+            }
         }
 
 
         private void checkBoxScrolling_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            this.textImage.EnableScrolling = this.checkBoxScrolling.IsChecked == true;
+            if (this.checkBoxScrolling.IsChecked == true)
+                this.textImage.StartAnimation();
+            else
+                this.textImage.StopAnimation();
         }
 
         private void integerUpDownScrollingSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.integerUpDownScrollingSpeed.Value.HasValue)
-                this.textImage.ScrollingSpeed = this.integerUpDownScrollingSpeed.Value.Value;
+                this.scrollingAnimation.PixelsPerSecond = this.integerUpDownScrollingSpeed.Value.Value;
         }
 
         private void textBoxScrollingDelimiter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.textImage.ScrollingDelimiter = this.textBoxScrollingDelimiter.Text;
+            this.scrollingDelimiterImage.Text = this.textBoxScrollingDelimiter.Text;
         }
 
         private void integerUpDownScrollingMaxWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.integerUpDownScrollingMaxWidth.Value.HasValue)
-                this.textImage.ScrollingMaxWidth = this.integerUpDownScrollingMaxWidth.Value.Value;
+                this.scrollingAnimation.MaxWidth = this.integerUpDownScrollingMaxWidth.Value.Value;
         }
 
         private void comboBoxScrollingAlign_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (this.comboBoxScrollingAlign.SelectedValue.ToString())
+            if (e.AddedItems.Count > 0)
             {
-                case "Left":
-                    this.textImage.ScrollingAlign = TextImage.ScrollingAligns.Left;
-                    break;
-                case "Center":
-                    this.textImage.ScrollingAlign = TextImage.ScrollingAligns.Center;
-                    break;
-                case "Right":
-                    this.textImage.ScrollingAlign = TextImage.ScrollingAligns.Right;
-                    break;
+                ComboBoxItem item = e.AddedItems[0] as ComboBoxItem;
+                if (item != null)
+                {
+                    switch (item.Content.ToString())
+                    {
+                        case "Left":
+                            this.scrollingAnimation.TextAlign = AlignmentX.Left;
+                            break;
+                        case "Center":
+                            this.scrollingAnimation.TextAlign = AlignmentX.Center;
+                            break;
+                        case "Right":
+                            this.scrollingAnimation.TextAlign = AlignmentX.Right;
+                            break;
+                    }
+                }
             }
         }
 
         private void checkBoxScrollingLargeOnly_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            this.textImage.ScrollingLargeOnly = this.checkBoxScrollingLargeOnly.IsChecked == true;
+            this.scrollingAnimation.ScrollMode = this.checkBoxScrollingLargeOnly.IsChecked == true ? ScrollMode.OnlyWhenTextIsTooLarge : ScrollMode.Always;
         }
 
 

@@ -102,6 +102,12 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DynValueExtensions.cs" />
     <Compile Include="Extensions\XElementExtensions.cs" />
+    <Compile Include="Imaging\Animations\IAnimator.cs" />
+    <Compile Include="Imaging\Animations\ScrollingAnimation.cs" />
+    <Compile Include="Imaging\IAnimatable.cs" />
+    <Compile Include="Imaging\IImage.cs" />
+    <Compile Include="Imaging\Image.cs" />
+    <Compile Include="Imaging\TextImage.cs" />
     <Compile Include="MumbleLink\Gw2MumbleLinkFile.cs" />
     <Compile Include="MumbleLink\MumbleLinkConnector.cs" />
     <Compile Include="MumbleLink\IMumbleLinkConnector.cs" />
@@ -132,7 +138,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\ScriptBase.cs" />
     <Compile Include="Scripting\Variables\ScriptVariable.cs" />
-    <Compile Include="TextImage.cs" />
     <Compile Include="Update\AsyncDownloader.cs" />
     <Compile Include="Update\IAsyncDownloader.cs" />
     <Compile Include="Update\Release.cs" />

@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CLROBS;
 using ObsGw2Plugin.Extensions;
+using ObsGw2Plugin.Imaging;
+using ObsGw2Plugin.Imaging.Animations;
 using ObsGw2Plugin.Scripting;
 
 namespace ObsGw2Plugin
@@ -17,11 +19,12 @@ namespace ObsGw2Plugin
     class Gw2InfoSource : AbstractImageSource, IDisposable
     {
         private object textureLock = new object();
-        private TextImage textImage = null;
         private Texture texture = null;
         private XElement config;
         private string oldText = "";
         private bool hideWhenGw2IsInactive = true;
+
+        private TextImage textImage = null;
 
         public Gw2InfoSource(XElement config)
         {
@@ -54,40 +57,62 @@ namespace ObsGw2Plugin
                 int scrollingSpeed = this.config.GetInt("scrollingSpeed");
                 string scrollingDelimiter = this.config.GetString("scrollingDelimiter");
                 int scrollingMaxWidth = this.config.GetInt("scrollingMaxWidth");
-                TextImage.ScrollingAligns scrollingAlign = TextImage.ScrollingAligns.Center;
+                AlignmentX scrollingAlign = AlignmentX.Left;
                 switch (this.config.GetString("scrollingAlign"))
                 {
-                    case "Left": scrollingAlign = TextImage.ScrollingAligns.Left; break;
-                    case "Center": scrollingAlign = TextImage.ScrollingAligns.Center; break;
-                    case "Right": scrollingAlign = TextImage.ScrollingAligns.Right; break;
+                    case "Left": scrollingAlign = AlignmentX.Left; break;
+                    case "Center": scrollingAlign = AlignmentX.Center; break;
+                    case "Right": scrollingAlign = AlignmentX.Right; break;
                 }
                 bool scrollingLargeOnly = this.config.GetBoolean("scrollingLargeOnly");
 
-                TextImage newTextImage = new TextImage();
-                newTextImage.Text = text;
-                newTextImage.FontFamily = fontFamily;
-                newTextImage.FontSize = fontSize;
-                newTextImage.TextColor = textColor;
-                newTextImage.BackColor = backColor;
-                newTextImage.EffectBold = effectBold;
-                newTextImage.EffectItalic = effectItalic;
-                newTextImage.EffectUnderline = effectUnderline;
-                newTextImage.OutlineColor = outlineColor;
-                newTextImage.OutlineThickness = outlineThickness;
-                newTextImage.EnableScrolling = scrolling;
-                newTextImage.ScrollingSpeed = scrollingSpeed;
-                newTextImage.ScrollingDelimiter = scrollingDelimiter;
-                newTextImage.ScrollingMaxWidth = scrollingMaxWidth;
-                newTextImage.ScrollingAlign = scrollingAlign;
-                newTextImage.ScrollingLargeOnly = scrollingLargeOnly;
+                this.textImage = new TextImage()
+                {
+                    Text = text,
+                    FontFamily = fontFamily,
+                    FontSize = fontSize,
+                    TextColor = textColor,
+                    BackColor = backColor,
+                    EffectBold = effectBold,
+                    EffectItalic = effectItalic,
+                    EffectUnderline = effectUnderline,
+                    OutlineColor = outlineColor,
+                    OutlineThickness = outlineThickness
+                };
+                if (scrolling)
+                {
+                    TextImage scrollingDelimiterImage = new TextImage()
+                    {
+                        Text = scrollingDelimiter,
+                        FontFamily = fontFamily,
+                        FontSize = fontSize,
+                        TextColor = textColor,
+                        BackColor = backColor,
+                        EffectBold = effectBold,
+                        EffectItalic = effectItalic,
+                        EffectUnderline = effectUnderline,
+                        OutlineColor = outlineColor,
+                        OutlineThickness = outlineThickness
+                    };
+                    ScrollingAnimation scrollingAnimation = new ScrollingAnimation()
+                    {
+                        DelimiterImage = scrollingDelimiterImage,
+                        PixelsPerSecond = scrollingSpeed,
+                        MaxWidth = scrollingMaxWidth,
+                        TextAlign = scrollingAlign,
+                        ScrollMode = scrollingLargeOnly ? ScrollMode.OnlyWhenTextIsTooLarge : ScrollMode.Always
+                    };
 
-                this.textImage = newTextImage;
+                    this.textImage.CustomWidth = scrollingMaxWidth;
+                    this.textImage.Animators.Add(scrollingAnimation);
+                }
+
                 this.UpdateTexture();
 
-                this.config.Parent.SetInt("cx", this.textImage.Image.PixelWidth);
-                this.config.Parent.SetInt("cy", this.textImage.Image.PixelHeight);
-                this.Size.X = this.textImage.Image.PixelWidth;
-                this.Size.Y = this.textImage.Image.PixelHeight;
+                this.config.Parent.SetInt("cx", this.textImage.CustomWidth ?? this.textImage.Bitmap.PixelWidth);
+                this.config.Parent.SetInt("cy", this.textImage.Bitmap.PixelHeight);
+                this.Size.X = this.textImage.CustomWidth ?? this.textImage.Bitmap.PixelWidth;
+                this.Size.Y = this.textImage.Bitmap.PixelHeight;
             }
             catch (Exception ex)
             {
@@ -102,14 +127,11 @@ namespace ObsGw2Plugin
             {
                 if (this.textImage != null)
                 {
-                    if (!this.hideWhenGw2IsInactive || Gw2Plugin.Instance.MumbleLinkManager.IsActive)
+                    this.UpdateTexture();
+                    lock (textureLock)
                     {
-                        this.UpdateTexture();
-                        lock (textureLock)
-                        {
-                            if (this.texture != null)
-                                GS.DrawSprite(texture, 0xFFFFFFFF, x, y, x + width, y + height);
-                        }
+                        if (this.texture != null)
+                            GS.DrawSprite(texture, 0xFFFFFFFF, x, y, x + width, y + height);
                     }
                 }
             }
@@ -129,15 +151,17 @@ namespace ObsGw2Plugin
                 this.textImage.Text = text;
             }
 
-            if (this.textImage.RenderNextFrame() || this.texture == null)
+            if (!this.textImage.AnimationActive)
+                this.textImage.StartAnimation();
+
+            if (this.textImage.AnimateFrame() || this.texture == null)
             {
-                int pixelWidth = this.textImage.Image.PixelWidth;
-                int pixelHeight = this.textImage.Image.PixelHeight;
-                int stride = pixelWidth * 4;
-                byte[] pixels = this.textImage.GetPixels(stride);
+                int pixelWidth = this.textImage.Bitmap.PixelWidth;
+                int pixelHeight = this.textImage.Bitmap.PixelHeight;
+                byte[] pixels = this.textImage.GetPixels();
 
                 Texture newTexture = GS.CreateTexture((uint)pixelWidth, (uint)pixelHeight, GSColorFormat.GS_BGRA, null, false, false);
-                newTexture.SetImage(pixels, GSImageFormat.GS_IMAGEFORMAT_BGRA, (uint)stride);
+                newTexture.SetImage(pixels, GSImageFormat.GS_IMAGEFORMAT_BGRA, (uint)this.textImage.GetStride());
 
                 this.config.Parent.SetInt("cx", pixelWidth);
                 this.config.Parent.SetInt("cy", pixelHeight);
@@ -149,6 +173,7 @@ namespace ObsGw2Plugin
 
                 return true;
             }
+
             return false;
         }
 

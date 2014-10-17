@@ -82,11 +82,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\XElementExtensionsTest.cs" />
     <Compile Include="Extensions\DynValueExtensionsTest.cs" />
     <Compile Include="Extensions\ColorExtensionsTest.cs" />
+    <Compile Include="Imaging\Animations\ScrollingAnimationTest.cs" />
+    <Compile Include="Imaging\ImageTest.cs" />
+    <Compile Include="Imaging\TextImageTest.cs" />
     <Compile Include="MumbleLink\MumbleLinkManagerTest.cs" />
     <Compile Include="MumbleLink\Gw2MumbleLinkFileTest.cs" />
     <Compile Include="MumbleLink\MumbleLinkFileTest.cs" />
