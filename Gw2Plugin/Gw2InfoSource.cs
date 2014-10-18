@@ -12,6 +12,7 @@ using CLROBS;
 using ObsGw2Plugin.Extensions;
 using ObsGw2Plugin.Imaging;
 using ObsGw2Plugin.Imaging.Animations;
+using ObsGw2Plugin.MumbleLink;
 using ObsGw2Plugin.Scripting;
 
 namespace ObsGw2Plugin
@@ -24,12 +25,22 @@ namespace ObsGw2Plugin
         private string oldText = "";
         private bool hideWhenGw2IsInactive = true;
 
+        private bool isVisible = false;
         private TextImage textImage = null;
+        private FadeAnimator fadeAnimator = null;
 
         public Gw2InfoSource(XElement config)
         {
             this.config = config;
             UpdateSettings();
+            Gw2Plugin.Instance.MumbleLinkManager.MumbleLinkStateChanged += MumbleLinkManager_MumbleLinkStateChanged;
+        }
+
+        private void MumbleLinkManager_MumbleLinkStateChanged(object sender, MumbleLinkStateEventArgs e)
+        {
+            // Since the Mumble Link state has changed, reset the fade animator so it can be used again
+            this.textImage.Animators.Remove(this.fadeAnimator);
+            this.fadeAnimator = null;
         }
 
         public override void UpdateSettings()
@@ -128,10 +139,13 @@ namespace ObsGw2Plugin
                 if (this.textImage != null)
                 {
                     this.UpdateTexture();
-                    lock (textureLock)
+                    if (this.isVisible)
                     {
-                        if (this.texture != null)
-                            GS.DrawSprite(texture, 0xFFFFFFFF, x, y, x + width, y + height);
+                        lock (textureLock)
+                        {
+                            if (this.texture != null)
+                                GS.DrawSprite(texture, 0xFFFFFFFF, x, y, x + width, y + height);
+                        }
                     }
                 }
             }
@@ -153,6 +167,35 @@ namespace ObsGw2Plugin
 
             if (!this.textImage.AnimationActive)
                 this.textImage.StartAnimation();
+
+            // Fade in and out when the fade animator is currently null (aka when the Mumble Link state changes)
+            if (this.hideWhenGw2IsInactive && this.fadeAnimator == null)
+            {
+                if (!this.isVisible && Gw2Plugin.Instance.MumbleLinkManager.IsActive)
+                    this.fadeAnimator = new FadeAnimator(FadeMode.FadeIn);
+                else if (this.isVisible && !Gw2Plugin.Instance.MumbleLinkManager.IsActive)
+                    this.fadeAnimator = new FadeAnimator(FadeMode.FadeOut);
+
+                if (this.fadeAnimator != null)
+                {
+                    this.fadeAnimator.AnimationFinished += (s_, e_) =>
+                    {
+                        this.textImage.Animators.Remove(this.fadeAnimator);
+                        if (this.fadeAnimator.FadeMode == FadeMode.FadeOut)
+                            this.isVisible = false;
+                    };
+
+                    // Workaround if another animator uses a custom viewport:
+                    // This viewport will be ignored in PixelWidth and PixelHeight if the image is actually smaller
+                    // Therefore, insert the fade animator before every other animator
+                    this.textImage.Animators.Insert(0, this.fadeAnimator);
+                    this.isVisible = true;
+                }
+            }
+            else if (!this.hideWhenGw2IsInactive)
+            {
+                this.isVisible = true;
+            }
 
             if (this.textImage.AnimateFrame() || this.texture == null)
             {
