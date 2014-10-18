@@ -11,16 +11,13 @@ namespace ObsGw2Plugin.Imaging.Animations
 {
     public class FadeAnimator : IAnimator
     {
-        public FadeAnimator()
-            : this(FadeMode.FadeIn)
-        {
-            this.OpacityDeltaPerSecond = 1;
-        }
+        public FadeAnimator() : this(FadeMode.FadeIn) { }
 
         public FadeAnimator(FadeMode fadeMode)
         {
             this.FadeMode = fadeMode;
             this.CurrentOpacity = fadeMode == FadeMode.FadeIn ? 0 : 1;
+            this.OpacityDeltaPerSecond = 0.01;
         }
 
 
