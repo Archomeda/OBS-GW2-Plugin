@@ -103,6 +103,7 @@
     <Compile Include="Extensions\DynValueExtensions.cs" />
     <Compile Include="Extensions\XElementExtensions.cs" />
     <Compile Include="Imaging\Animations\IAnimator.cs" />
+    <Compile Include="Imaging\Animations\FadeAnimator.cs" />
     <Compile Include="Imaging\Animations\ScrollingAnimation.cs" />
     <Compile Include="Imaging\IAnimatable.cs" />
     <Compile Include="Imaging\IImage.cs" />
