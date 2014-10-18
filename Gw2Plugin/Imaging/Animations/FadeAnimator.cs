@@ -17,7 +17,7 @@ namespace ObsGw2Plugin.Imaging.Animations
         {
             this.FadeMode = fadeMode;
             this.CurrentOpacity = fadeMode == FadeMode.FadeIn ? 0 : 1;
-            this.OpacityDeltaPerSecond = 0.01;
+            this.OpacityDeltaPerSecond = 1;
         }
 
 
