@@ -10,14 +10,12 @@ assembly_info:
 before_build:
   - nuget restore
 
-configuration:
-  - Debug
-  - Release
+configuration: Release
 
 cache:
   - packages
 
 artifacts:
-  - path: Gw2Plugin/bin/Release
+  - path: Gw2Plugin\bin\$(configuration)
     name: OBS GW2 Plugin v$(appveyor_build_version)
     type: zip
