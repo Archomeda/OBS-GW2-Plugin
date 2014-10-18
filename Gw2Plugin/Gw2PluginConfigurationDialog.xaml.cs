@@ -37,15 +37,15 @@ namespace ObsGw2Plugin
 
         private TextImage textImage = new TextImage();
         private TextImage scrollingDelimiterImage = new TextImage();
-        private ScrollingAnimation scrollingAnimation = new ScrollingAnimation();
+        private ScrollingAnimator scrollingAnimator = new ScrollingAnimator();
 
 
         public Gw2PluginConfigurationDialog(XElement data)
         {
             InitializeComponent();
 
-            this.scrollingAnimation.DelimiterImage = this.scrollingDelimiterImage;
-            this.textImage.Animators.Add(this.scrollingAnimation);
+            this.scrollingAnimator.DelimiterImage = this.scrollingDelimiterImage;
+            this.textImage.Animators.Add(this.scrollingAnimator);
 
             Binding binding = new Binding("Bitmap") { Source = this.textImage };
             this.imagePreview.SetBinding(System.Windows.Controls.Image.SourceProperty, binding);
@@ -359,7 +359,7 @@ namespace ObsGw2Plugin
         private void integerUpDownScrollingSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.integerUpDownScrollingSpeed.Value.HasValue)
-                this.scrollingAnimation.PixelsPerSecond = this.integerUpDownScrollingSpeed.Value.Value;
+                this.scrollingAnimator.PixelsPerSecond = this.integerUpDownScrollingSpeed.Value.Value;
         }
 
         private void textBoxScrollingDelimiter_TextChanged(object sender, TextChangedEventArgs e)
@@ -370,7 +370,7 @@ namespace ObsGw2Plugin
         private void integerUpDownScrollingMaxWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this.integerUpDownScrollingMaxWidth.Value.HasValue)
-                this.scrollingAnimation.MaxWidth = this.integerUpDownScrollingMaxWidth.Value.Value;
+                this.scrollingAnimator.MaxWidth = this.integerUpDownScrollingMaxWidth.Value.Value;
         }
 
         private void comboBoxScrollingAlign_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -383,13 +383,13 @@ namespace ObsGw2Plugin
                     switch (item.Content.ToString())
                     {
                         case "Left":
-                            this.scrollingAnimation.TextAlign = AlignmentX.Left;
+                            this.scrollingAnimator.TextAlign = AlignmentX.Left;
                             break;
                         case "Center":
-                            this.scrollingAnimation.TextAlign = AlignmentX.Center;
+                            this.scrollingAnimator.TextAlign = AlignmentX.Center;
                             break;
                         case "Right":
-                            this.scrollingAnimation.TextAlign = AlignmentX.Right;
+                            this.scrollingAnimator.TextAlign = AlignmentX.Right;
                             break;
                     }
                 }
@@ -398,7 +398,7 @@ namespace ObsGw2Plugin
 
         private void checkBoxScrollingLargeOnly_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            this.scrollingAnimation.ScrollMode = this.checkBoxScrollingLargeOnly.IsChecked == true ? ScrollMode.TooWideOnly : ScrollMode.ForcedContinuous;
+            this.scrollingAnimator.ScrollMode = this.checkBoxScrollingLargeOnly.IsChecked == true ? ScrollMode.TooWideOnly : ScrollMode.ForcedContinuous;
         }
 
 

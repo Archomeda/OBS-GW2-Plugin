@@ -9,9 +9,9 @@ using System.Windows.Media.Imaging;
 
 namespace ObsGw2Plugin.Imaging.Animations
 {
-    public class ScrollingAnimation : IAnimator
+    public class ScrollingAnimator : IAnimator
     {
-        public ScrollingAnimation()
+        public ScrollingAnimator()
         {
             this.PixelsPerSecond = 5;
             this.ScrollMode = ScrollMode.TooWideOnly;
@@ -164,7 +164,7 @@ namespace ObsGw2Plugin.Imaging.Animations
 
         private AnimationState RenderNextFrame_ScrollForcedOnce(BitmapSource sourceBitmap, DateTime prevUpdate, out BitmapSource outBitmap)
         {
-            if (animationFinished)
+            if (this.animationFinished)
             {
                 outBitmap = sourceBitmap;
                 return AnimationState.Finished;

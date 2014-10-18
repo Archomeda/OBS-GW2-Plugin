@@ -94,7 +94,7 @@ namespace ObsGw2Plugin
                         OutlineColor = outlineColor,
                         OutlineThickness = outlineThickness
                     };
-                    ScrollingAnimation scrollingAnimation = new ScrollingAnimation()
+                    ScrollingAnimator scrollingAnimator = new ScrollingAnimator()
                     {
                         DelimiterImage = scrollingDelimiterImage,
                         PixelsPerSecond = scrollingSpeed,
@@ -104,7 +104,7 @@ namespace ObsGw2Plugin
                     };
 
                     this.textImage.CustomWidth = scrollingMaxWidth;
-                    this.textImage.Animators.Add(scrollingAnimation);
+                    this.textImage.Animators.Add(scrollingAnimator);
                 }
 
                 this.UpdateTexture();
