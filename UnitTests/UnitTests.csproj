@@ -38,10 +38,6 @@
     <Reference Include="Antlr4.Runtime.net35">
       <HintPath>..\packages\MoonSharp.0.5.5\lib\Antlr4.Runtime.net35.dll</HintPath>
     </Reference>
-    <Reference Include="CLRHost.Interop, Version=1.0.4984.42145, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\CLRHost.Interop.dll</HintPath>
-    </Reference>
     <Reference Include="MoonSharp.Interpreter">
       <HintPath>..\packages\MoonSharp.0.5.5\lib\MoonSharp.Interpreter.dll</HintPath>
     </Reference>

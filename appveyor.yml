@@ -10,12 +10,18 @@ assembly_info:
 before_build:
   - nuget restore
 
+after_build:
+  - ps BuildScripts/CopyBinaries.ps1
+
 configuration: Release
 
 cache:
   - packages
 
 artifacts:
-  - path: Gw2Plugin\bin\$(configuration)
-    name: OBS GW2 Plugin v$(appveyor_build_version)
+  - path: bin/x86
+    name: OBS GW2 Plugin v$(appveyor_build_version) (32-bit)
+    type: zip
+  - path: bin/x64
+    name: OBS GW2 Plugin v$(appveyor_build_version) (64-bit)
     type: zip

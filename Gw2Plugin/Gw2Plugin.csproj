@@ -43,9 +43,9 @@
     <Reference Include="Antlr4.Runtime.net35">
       <HintPath>..\packages\MoonSharp.0.5.5\lib\Antlr4.Runtime.net35.dll</HintPath>
     </Reference>
-    <Reference Include="CLRHost.Interop">
-      <HintPath>..\lib\CLRHost.Interop.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CLRHost.Interop, Version=1.0.5363.26812, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\x86\CLRHost.Interop.dll</HintPath>
     </Reference>
     <Reference Include="GW2.NET">
       <HintPath>..\packages\GW2.NET.0.9.11.0\lib\net40\GW2.NET.dll</HintPath>
@@ -226,7 +226,7 @@
   </Target>
   <Target Name="AfterBuild">
     <Message Importance="high" Text="Removing referenced libraries..." />
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" Condition="'%(Filename)%(Extension)' != 'CLRHost.Interop.dll'" />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
     <ItemGroup>
       <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
       <Directories>
