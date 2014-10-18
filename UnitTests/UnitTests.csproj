@@ -89,7 +89,7 @@
     <Compile Include="Extensions\DynValueExtensionsTest.cs" />
     <Compile Include="Extensions\ColorExtensionsTest.cs" />
     <Compile Include="Imaging\Animations\FadeAnimatorTest.cs" />
-    <Compile Include="Imaging\Animations\ScrollingAnimationTest.cs" />
+    <Compile Include="Imaging\Animations\ScrollingAnimatorTest.cs" />
     <Compile Include="Imaging\ImageTest.cs" />
     <Compile Include="Imaging\TextImageTest.cs" />
     <Compile Include="MumbleLink\MumbleLinkManagerTest.cs" />

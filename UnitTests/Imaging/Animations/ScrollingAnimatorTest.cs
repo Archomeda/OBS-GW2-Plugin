@@ -11,8 +11,8 @@ namespace ObsGw2Plugin.UnitTests.Imaging.Animations
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]
-    public class ScrollingAnimationTest
+    public class ScrollingAnimatorTest
     {
-        //TODO Tests for ScrollingAnimation
+        //TODO Tests for ScrollingAnimator
     }
 }
