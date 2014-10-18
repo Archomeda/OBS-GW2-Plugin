@@ -44,7 +44,7 @@
       <HintPath>..\packages\MoonSharp.0.5.5\lib\Antlr4.Runtime.net35.dll</HintPath>
     </Reference>
     <Reference Include="CLRHost.Interop">
-      <HintPath>..\3rd party\CLRHost.Interop.dll</HintPath>
+      <HintPath>..\lib\CLRHost.Interop.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GW2.NET">
