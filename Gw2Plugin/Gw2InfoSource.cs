@@ -100,7 +100,7 @@ namespace ObsGw2Plugin
                         PixelsPerSecond = scrollingSpeed,
                         MaxWidth = scrollingMaxWidth,
                         TextAlign = scrollingAlign,
-                        ScrollMode = scrollingLargeOnly ? ScrollMode.OnlyWhenTextIsTooLarge : ScrollMode.Always
+                        ScrollMode = scrollingLargeOnly ? ScrollMode.TooWideOnly : ScrollMode.ForcedContinuous
                     };
 
                     this.textImage.CustomWidth = scrollingMaxWidth;

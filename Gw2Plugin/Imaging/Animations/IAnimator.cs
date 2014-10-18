@@ -13,6 +13,9 @@ namespace ObsGw2Plugin.Imaging.Animations
 
         void ResetState();
 
+
+        event EventHandler<AnimationFinishedEventArgs> AnimationFinished;
+
     }
 
     public enum AnimationState
@@ -22,10 +25,6 @@ namespace ObsGw2Plugin.Imaging.Animations
         Finished
     }
 
-    //TODO Future stuff: Extend animations with support for continuous or one-time animations
-    /*public enum AnimationType
-    {
-        Continuous,
-        OneTime
-    }*/
+    public class AnimationFinishedEventArgs : EventArgs { }
+
 }

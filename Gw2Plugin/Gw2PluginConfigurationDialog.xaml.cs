@@ -398,7 +398,7 @@ namespace ObsGw2Plugin
 
         private void checkBoxScrollingLargeOnly_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            this.scrollingAnimation.ScrollMode = this.checkBoxScrollingLargeOnly.IsChecked == true ? ScrollMode.OnlyWhenTextIsTooLarge : ScrollMode.Always;
+            this.scrollingAnimation.ScrollMode = this.checkBoxScrollingLargeOnly.IsChecked == true ? ScrollMode.TooWideOnly : ScrollMode.ForcedContinuous;
         }
 
 
