@@ -323,7 +323,8 @@ namespace ObsGw2Plugin.Imaging
 
                 BitmapSource animatedBitmap = this.preRenderedBitmap;
                 bool updated = false;
-                foreach (IAnimator animator in this.Animators)
+                IList<IAnimator> cachedList = new List<IAnimator>(this.Animators);
+                foreach (IAnimator animator in cachedList)
                 {
                     AnimationState state = animator.RenderNextFrame(animatedBitmap, prevUpdate, out animatedBitmap);
                     if (state == AnimationState.InProgress)
