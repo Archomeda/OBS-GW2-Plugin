@@ -181,14 +181,21 @@ namespace ObsGw2Plugin
 
         static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            var asmName = new AssemblyName(args.Name);
+
+            // Check for PCL first (introducing this stupid workaround since GW2.NET uses PCL
+            // and .NET throws a FileNotFoundException upon returning null, so we need to load it ourselves)
+            // Used reference: http://www.codingmurmur.com/2014/02/embedded-assembly-loading-with-support.html
+            if (asmName.FullName.EndsWith("Retargetable=Yes"))
+                return Assembly.Load(asmName);
+
+            // Now we can check for embedded assemblies
             Assembly assembly = Assembly.GetExecutingAssembly();
-
-            var name = args.Name.Substring(0, args.Name.IndexOf(',')) + ".dll";
-            var resourceName = assembly.GetManifestResourceNames().FirstOrDefault(s => s.EndsWith(name));
-
+            var dllName = asmName.Name + ".dll";
+            var resourceName = assembly.GetManifestResourceNames().FirstOrDefault(s => s.Contains(dllName));
             if (!string.IsNullOrEmpty(resourceName))
             {
-                API.Instance.Log("Gw2Plugin: Loading embedded assembly '{0}' as '{1}'", name, resourceName);
+                API.Instance.Log("Gw2Plugin: Loading embedded assembly '{0}' as '{1}'", dllName, resourceName);
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
@@ -197,8 +204,7 @@ namespace ObsGw2Plugin
                     return Assembly.Load(block);
                 }
             }
-            else
-                return null;
+            return null;
         }
     }
 }
