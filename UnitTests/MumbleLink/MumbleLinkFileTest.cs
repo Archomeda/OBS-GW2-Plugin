@@ -73,7 +73,10 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             Assert.AreEqual(description, mumbleLinkFile.Description, "Description");
         }
 
-        static IEnumerable<object[]> EnumerateProperties()
+
+        #region NotifyPropertyChanged tests
+
+        public static IEnumerable<object[]> EnumerateProperties()
         {
             return new List<object[]>() {
                 new object[] { "UIVersion", 1u },
@@ -90,23 +93,13 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             };
         }
 
-        [Test, TestCaseSource("EnumerateProperties")]
-        public void NotifyPropertyChanged(string propertyName, object newValue)
+        [Test, TestCaseSource(typeof(MumbleLinkFileTest), "EnumerateProperties")]
+        public void NotifyPropertyChangedMumbleLinkFile(string propertyName, object newValue)
         {
-            MumbleLinkFile mumbleLinkFile = new MumbleLinkFile();
-            string actualProperty = null;
-            mumbleLinkFile.PropertyChanged += (s, e) => actualProperty = e.PropertyName;
-
-            // Test for change
-            mumbleLinkFile.GetType().GetProperty(propertyName).SetValue(mumbleLinkFile, newValue);
-            Assert.AreEqual(propertyName, actualProperty, "Event call");
-            Assert.AreEqual(newValue, mumbleLinkFile.GetType().GetProperty(propertyName).GetValue(mumbleLinkFile), "Property change");
-
-            // Test for no change
-            actualProperty = null;
-            mumbleLinkFile.GetType().GetProperty(propertyName).SetValue(mumbleLinkFile, newValue);
-            Assert.AreEqual(null, actualProperty, "No event call");
-            Assert.AreEqual(newValue, mumbleLinkFile.GetType().GetProperty(propertyName).GetValue(mumbleLinkFile), "No property change");
+            PropertyUtils.TestNotifyPropertyChanged(new MumbleLinkFile(), propertyName, newValue);
         }
+
+        #endregion
+
     }
 }

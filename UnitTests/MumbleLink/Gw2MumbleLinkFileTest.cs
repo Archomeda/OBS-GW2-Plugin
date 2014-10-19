@@ -16,10 +16,10 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]
-    public class Gw2MumbleLinkFileTest
+    public class Gw2MumbleLinkFileTest : MumbleLinkFileTest
     {
         [Test]
-        unsafe public void SetDataFromLinkedMem()
+        unsafe public void SetDataFromLinkedGw2Mem()
         {
             // MumbleLinkFileTest contains a test that covers the basic stuff of MumbleLinkFile
             // Only the stuff that is new in Gw2MumbleLinkFile is covered here
@@ -99,7 +99,10 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             Assert.IsFalse(gw2MumbleLinkFile.IsValid);
         }
 
-        static IEnumerable<object[]> EnumerateProperties()
+
+        #region NotifyPropertyChanged tests
+
+        public new static IEnumerable<object[]> EnumerateProperties()
         {
             return new List<object[]>() {
                 new object[] { "CharacterName", "Rox" },
@@ -116,23 +119,13 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             };
         }
 
-        [Test, TestCaseSource("EnumerateProperties")]
-        public void NotifyPropertyChanged(string propertyName, object newValue)
+        [Test, TestCaseSource(typeof(Gw2MumbleLinkFileTest), "EnumerateProperties")]
+        public void NotifyPropertyChangedGw2MumbleLinkFile(string propertyName, object newValue)
         {
-            Gw2MumbleLinkFile gw2MumbleLinkFile = new Gw2MumbleLinkFile();
-            string actualProperty = null;
-            gw2MumbleLinkFile.PropertyChanged += (s, e) => actualProperty = e.PropertyName;
-
-            // Test for change
-            gw2MumbleLinkFile.GetType().GetProperty(propertyName).SetValue(gw2MumbleLinkFile, newValue);
-            Assert.AreEqual(propertyName, actualProperty, "Event call");
-            Assert.AreEqual(newValue, gw2MumbleLinkFile.GetType().GetProperty(propertyName).GetValue(gw2MumbleLinkFile), "Property change");
-
-            // Test for no change
-            actualProperty = null;
-            gw2MumbleLinkFile.GetType().GetProperty(propertyName).SetValue(gw2MumbleLinkFile, newValue);
-            Assert.AreEqual(null, actualProperty, "No event call");
-            Assert.AreEqual(newValue, gw2MumbleLinkFile.GetType().GetProperty(propertyName).GetValue(gw2MumbleLinkFile), "No property change");
+            PropertyUtils.TestNotifyPropertyChanged(new Gw2MumbleLinkFile(), propertyName, newValue);
         }
+
+        #endregion
+
     }
 }

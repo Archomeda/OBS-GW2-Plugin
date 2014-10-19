@@ -10,6 +10,7 @@ using NSubstitute;
 using NUnit.Framework;
 using ObsGw2Plugin.Imaging;
 using ObsGw2Plugin.Imaging.Animations;
+using ObsGw2Plugin.UnitTests.Utils;
 
 namespace ObsGw2Plugin.UnitTests.Imaging
 {
@@ -95,6 +96,8 @@ namespace ObsGw2Plugin.UnitTests.Imaging
         }
 
 
+        #region NotifyPropertyChanged tests
+
         public new static IEnumerable<object[]> EnumerateProperties()
         {
             return new List<object[]>() {
@@ -114,20 +117,10 @@ namespace ObsGw2Plugin.UnitTests.Imaging
         [Test, TestCaseSource(typeof(TextImageTest), "EnumerateProperties")]
         public void NotifyPropertyChangedTextImage(string propertyName, object newValue)
         {
-            List<string> actualProperties = new List<string>();
-            this.TextImage.PropertyChanged += (s, e) => actualProperties.Add(e.PropertyName);
-
-            // Test for change
-            this.TextImage.GetType().GetProperty(propertyName).SetValue(this.TextImage, newValue);
-            CollectionAssert.Contains(actualProperties, propertyName, "Event call");
-            Assert.AreEqual(newValue, this.TextImage.GetType().GetProperty(propertyName).GetValue(this.TextImage), "Property change");
-
-            // Test for no change
-            actualProperties.Clear();
-            this.TextImage.GetType().GetProperty(propertyName).SetValue(this.TextImage, newValue);
-            CollectionAssert.DoesNotContain(actualProperties, propertyName, "No event call");
-            Assert.AreEqual(newValue, this.TextImage.GetType().GetProperty(propertyName).GetValue(this.TextImage), "No property change");
+            PropertyUtils.TestNotifyPropertyChanged(this.TextImage, propertyName, newValue);
         }
+
+        #endregion
 
     }
 }

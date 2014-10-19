@@ -103,6 +103,7 @@
     <Compile Include="Update\AsyncDownloaderTest.cs" />
     <Compile Include="Update\ReleaseTest.cs" />
     <Compile Include="Utils\PointerUtils.cs" />
+    <Compile Include="Utils\PropertyUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
