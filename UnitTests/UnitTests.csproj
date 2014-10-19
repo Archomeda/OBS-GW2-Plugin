@@ -159,4 +159,21 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Message Importance="high" Text="Copying Lua scripts..." />
+    <ItemGroup>
+      <LuaScripts Include="..\LuaScripts\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LuaScripts)" DestinationFolder="$(OutDir)Gw2Plugin\%(RecursiveDir)" />
+  </Target>
+  <Target Name="Clean">
+    <ItemGroup>
+      <FilesToDelete Include="$(OutDir)**\*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <ItemGroup>
+      <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)', '*', System.IO.SearchOption.AllDirectories))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(Directories)" />
+  </Target>
 </Project>

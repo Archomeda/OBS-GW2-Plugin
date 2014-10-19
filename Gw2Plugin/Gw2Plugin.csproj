@@ -154,60 +154,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Gw2Plugin\ScriptFormatters\BuildId.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\Fps.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\TeamColor.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\GameModeName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\ShardId.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\WorldId.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\ServerAddress.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\PercentSignEscape.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\ProfessionName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\Examples\Example_RaceName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\Fps2.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\Fps.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\TeamColor.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\GameModeName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptVariables\ProfessionName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Gw2Plugin\ScriptFormatters\CharacterName.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Gw2Plugin\README.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup />
@@ -229,14 +178,29 @@
   </Target>
   <Target Name="AfterBuild">
     <Message Importance="high" Text="Removing referenced libraries..." />
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(Filename)%(Extension)')" />
     <ItemGroup>
-      <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
+      <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)', '*', System.IO.SearchOption.AllDirectories))" />
       <Directories>
         <Files>$([System.IO.Directory]::GetFiles("%(Directories.Identity)", "*", System.IO.SearchOption.AllDirectories).get_Length())</Files>
       </Directories>
     </ItemGroup>
     <Message Importance="high" Text="Removing empty folders..." />
     <RemoveDir Directories="@(Directories)" Condition="%(Files)=='0'" />
+    <Message Importance="high" Text="Copying Lua scripts..." />
+    <ItemGroup>
+      <LuaScripts Include="..\LuaScripts\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LuaScripts)" DestinationFolder="$(OutDir)Gw2Plugin\%(RecursiveDir)" />
+  </Target>
+  <Target Name="Clean">
+    <ItemGroup>
+      <FilesToDelete Include="$(OutDir)**\*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <ItemGroup>
+      <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)', '*', System.IO.SearchOption.AllDirectories))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(Directories)" />
   </Target>
 </Project>
