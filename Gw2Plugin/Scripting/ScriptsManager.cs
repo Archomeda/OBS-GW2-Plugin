@@ -189,18 +189,16 @@ namespace ObsGw2Plugin.Scripting
 
         public virtual string FormatString(string input)
         {
-            return Regex.Replace(input, "(%([^%]*)%)", match =>
+            return Regex.Replace(input, "(%[^%]*%)", match =>
             {
-                string id = match.Groups[2].Value;
-                if (this.scriptFormatters.ContainsKey(id))
-                {
-                    if (this.scriptFormatters[id].CachedVariable != null)
-                        return this.scriptFormatters[id].CachedVariable.CastToString();
-                    else
-                        return "";
-                }
+                string id = match.Groups[1].Value;
+                object result = this.GetCachedResult(id);
+                if (result is DynValue)
+                    return ((DynValue)result).CastToString();
+                else if (result != null)
+                    return result.ToString();
                 else
-                    return match.Groups[1].Value;
+                    return id;
             });
         }
 
