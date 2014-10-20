@@ -7,8 +7,7 @@
 --
 -- This is an example variable script. In order to use it, please copy it to
 -- "%APPDATA%/OBS/pluginData/Gw2Plugin/CustomScriptVariables" and change the
--- script. Your custom variable script will replace this default one
--- automatically when the plugin loads.
+-- script and filename.
 --
 -- If you want to make it visible as a formatter (and therefore use it in your
 -- customized text), don't forget to add a custom formatter too! Just look at

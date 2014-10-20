@@ -1,0 +1,78 @@
+-------------------
+-- RealWorldId.lua
+-------------------
+--
+-- After the megaservers were added in Guild Wars 2, the Mumble Link API did not
+-- include the proper world id of a character anymore. So we need to make our
+-- own variable.
+--
+-- This is an example variable script. In order to use it, please copy it to
+-- "%APPDATA%/OBS/pluginData/Gw2Plugin/CustomScriptVariables" and change the
+-- script and filename.
+--
+-- If you want to make it visible as a formatter (and therefore use it in your
+-- customized text), don't forget to add a custom formatter too! Just look at
+-- the README and the included script formatters to see how this can be done.
+--
+
+id = "RealWorldId"
+
+-- At the time of writing, the world names API is down.
+-- So here's a list of all the worlds with their respective ids:
+--
+-- 1001: Anvil Rock
+-- 1002: Borlis Pass
+-- 1003: Yak's Bend
+-- 1004: Henge of Denravi
+-- 1005: Maguuma
+-- 1006: Sorrow's Furnace
+-- 1007: Gate of Madness
+-- 1008: Jade Quarry
+-- 1009: Fort Aspenwood
+-- 1010: Ehmry Bay
+-- 1011: Stormbluff Isle
+-- 1012: Darkhaven
+-- 1013: Sanctum of Rall
+-- 1014: Crystal Desert
+-- 1015: Isle of Janthir
+-- 1016: Sea of Sorrows
+-- 1017: Tarnished Coast
+-- 1018: Northern Shiverpeaks
+-- 1019: Blackgate
+-- 1020: Ferguson's Crossing
+-- 1021: Dragonbrand
+-- 1022: Kaineng
+-- 1023: Devona's Rest
+-- 1024: Eredon Terrace
+--
+-- 2001: Fissure of Woe
+-- 2002: Desolation
+-- 2003: Gandara
+-- 2004: Blacktide
+-- 2005: Ring of Fire
+-- 2006: Underworld
+-- 2007: Far Shiverpeaks
+-- 2008: Whiteside Ridge
+-- 2009: Ruins of Surmia
+-- 2010: Seafarer's Rest
+-- 2011: Vabbi
+-- 2012: Piken Square
+-- 2013: Aurora Glade
+-- 2014: Gunnar's Hold
+-- 2101: Jade Sea [FR]
+-- 2102: Fort Ranik [FR]
+-- 2103: Augury Rock [FR]
+-- 2104: Vizunah Square [FR]
+-- 2105: Arborstone [FR]
+-- 2201: Kodash [DE]
+-- 2202: Riverside [DE]
+-- 2203: Elona Reach [DE]
+-- 2204: Abaddon's Mouth [DE]
+-- 2205: Drakkar Lake [DE]
+-- 2206: Miller's Sound [DE]
+-- 2207: Dzagonur [DE]
+-- 2301: Baruch Bay [SP]
+
+function update()
+	return 2003
+end
