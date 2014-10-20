@@ -19,6 +19,8 @@ namespace ObsGw2Plugin.Scripting
 
         public string Id { get; protected set; }
 
+        public bool HasCachedVariable { get; protected set; }
+
         public DynValue CachedVariable { get; protected set; }
 
         public IDictionary<string, DynValue> Locals { get; protected set; }
@@ -81,6 +83,7 @@ namespace ObsGw2Plugin.Scripting
         {
             DynValue oldCachedValue = this.CachedVariable;
             this.CachedVariable = this.GetLiveVariable();
+            this.HasCachedVariable = true;
             return !object.Equals(this.CachedVariable, oldCachedValue);
         }
 

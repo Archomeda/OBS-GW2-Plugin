@@ -115,13 +115,29 @@ namespace ObsGw2Plugin.Scripting
                 }
 
                 if (this.scriptVariables.ContainsKey(id))
-                    return this.scriptVariables[id].CachedVariable;
+                {
+                    IScriptVariable script = this.scriptVariables[id];
+                    if (!script.HasCachedVariable)
+                    {
+                        if (script.UpdateCachedVariable())
+                            this.NotifySubscribersToUpdate(script);
+                    }
+                    return script.CachedVariable;
+                }
             }
             else
             {
                 id = id.Substring(1, id.Length - 2);
                 if (this.scriptFormatters.ContainsKey(id))
-                    return this.scriptFormatters[id].CachedVariable;
+                {
+                    IScriptFormatter script = this.scriptFormatters[id];
+                    if (!script.HasCachedVariable)
+                    {
+                        if (script.UpdateCachedVariable())
+                            this.NotifySubscribersToUpdate(script);
+                    }
+                    return script.CachedVariable;
+                }
             }
 
             return null;

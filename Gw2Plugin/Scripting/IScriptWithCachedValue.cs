@@ -9,6 +9,8 @@ namespace ObsGw2Plugin.Scripting
 {
     public interface IScriptWithCachedValue : IScript
     {
+        bool HasCachedVariable { get; }
+
         DynValue CachedVariable { get; }
 
 

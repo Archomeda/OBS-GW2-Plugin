@@ -192,12 +192,68 @@ namespace ObsGw2Plugin.UnitTests.Scripting
         }
 
         [Test]
+        public void GetCachedVariableResult_RunFirstUpdateNoChange()
+        {
+            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
+            scriptVariable.HasCachedVariable.Returns(false);
+            scriptVariable.UpdateCachedVariable().Returns(false);
+            IScriptVariable scriptVariableHooked = this.RegisterScriptVariableInManager("scriptVariableHooked");
+            scriptVariableHooked.Hooks.Returns(new HashSet<string>() { "scriptVariable" });
+
+            this.scriptsManager.GetCachedResult(scriptVariable.Id);
+            scriptVariable.Received(1).UpdateCachedVariable();
+            scriptVariableHooked.Received(0).UpdateCachedVariable();
+        }
+
+        [Test]
+        public void GetCachedVariableResult_RunFirstUpdateAndNotify()
+        {
+            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
+            scriptVariable.HasCachedVariable.Returns(false);
+            scriptVariable.UpdateCachedVariable().Returns(true);
+            IScriptVariable scriptVariableHooked = this.RegisterScriptVariableInManager("scriptVariableHooked");
+            scriptVariableHooked.Hooks.Returns(new HashSet<string>() { "scriptVariable" });
+
+            this.scriptsManager.GetCachedResult(scriptVariable.Id);
+            scriptVariable.Received(1).UpdateCachedVariable();
+            scriptVariableHooked.Received(1).UpdateCachedVariable();
+        }
+
+        [Test]
         public void GetCachedFormatterResult()
         {
             IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
             DynValue expected = DynValue.NewString("Ho ho ho!!");
             scriptFormatter.CachedVariable.Returns(expected);
             Assert.AreEqual(expected, this.scriptsManager.GetCachedResult("%" + scriptFormatter.Id + "%"));
+        }
+
+        [Test]
+        public void GetCachedFormatterResult_RunFirstUpdateNoChange()
+        {
+            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
+            scriptFormatter.HasCachedVariable.Returns(false);
+            scriptFormatter.UpdateCachedVariable().Returns(false);
+            IScriptFormatter scriptFormatterHooked = this.RegisterScriptFormatterInManager("scriptFormatterHooked");
+            scriptFormatterHooked.Hooks.Returns(new HashSet<string>() { "%scriptFormatter%" });
+
+            this.scriptsManager.GetCachedResult("%" + scriptFormatter.Id + "%");
+            scriptFormatter.Received(1).UpdateCachedVariable();
+            scriptFormatterHooked.Received(0).UpdateCachedVariable();
+        }
+
+        [Test]
+        public void GetCachedFormatterResult_RunFirstUpdateAndNotify()
+        {
+            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
+            scriptFormatter.HasCachedVariable.Returns(false);
+            scriptFormatter.UpdateCachedVariable().Returns(true);
+            IScriptFormatter scriptFormatterHooked = this.RegisterScriptFormatterInManager("scriptFormatterHooked");
+            scriptFormatterHooked.Hooks.Returns(new HashSet<string>() { "%scriptFormatter%" });
+
+            this.scriptsManager.GetCachedResult("%" + scriptFormatter.Id + "%");
+            scriptFormatter.Received(1).UpdateCachedVariable();
+            scriptFormatterHooked.Received(1).UpdateCachedVariable();
         }
 
 

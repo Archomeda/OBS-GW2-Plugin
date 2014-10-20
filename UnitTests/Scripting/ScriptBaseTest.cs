@@ -86,6 +86,18 @@ namespace ObsGw2Plugin.UnitTests.Scripting
         }
 
         [Test]
+        public void HasCachedVariable()
+        {
+            string filename = this.GetScriptFilename("Test");
+            DynValue variable = DynValue.NewNumber(42);
+
+            this.script.InitScript(filename);
+            Assert.IsFalse(this.script.HasCachedVariable, "No cached variable");
+            this.script.UpdateCachedVariable();
+            Assert.IsTrue(this.script.HasCachedVariable, "Has cached variable");
+        }
+
+        [Test]
         public void UpdateCachedVariable()
         {
             string filename = this.GetScriptFilename("Test");
