@@ -111,6 +111,32 @@ namespace ObsGw2Plugin.UnitTests.Scripting
         }
 
         [Test]
+        public void CachedVariableChangedEvent()
+        {
+            string filename = this.GetScriptFilename("Test");
+            DynValue variable = DynValue.NewNumber(42);
+
+            bool eventFired = false;
+            object oldVariable = null;
+            object newVariable = null;
+
+            this.script.InitScript(filename);
+            this.script.CachedVariableChanged += (s_, e_) =>
+            {
+                eventFired = true;
+                oldVariable = e_.OldVariable;
+                newVariable = e_.NewVariable;
+            };
+            this.script.UpdateCachedVariable();
+            Assert.IsTrue(eventFired, "Event fired with update");
+            Assert.AreEqual(null, oldVariable, "Update oldVariable");
+            Assert.AreEqual(variable, newVariable, "Update newVariable");
+            eventFired = false;
+            this.script.UpdateCachedVariable();
+            Assert.IsFalse(eventFired, "Event fired with no update");
+        }
+
+        [Test]
         public void GlobalCSharpLocalVar()
         {
             string filename = this.GetScriptFilename("TestDummy");

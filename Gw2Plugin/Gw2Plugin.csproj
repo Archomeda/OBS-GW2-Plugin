@@ -122,6 +122,7 @@
     <Compile Include="MumbleLink\IMumbleLinkManager.cs" />
     <Compile Include="MumbleLink\MumbleLinkManager.cs" />
     <Compile Include="MumbleLink\Vector3.cs" />
+    <Compile Include="Scripting\Events\CachedVariableChangedEventArgs.cs" />
     <Compile Include="Scripting\IHookableScript.cs" />
     <Compile Include="Scripting\ICategorizableScript.cs" />
     <Compile Include="Scripting\IScriptsManager.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoonSharp.Interpreter;
+using ObsGw2Plugin.Scripting.Events;
 
 namespace ObsGw2Plugin.Scripting
 {
@@ -17,5 +18,8 @@ namespace ObsGw2Plugin.Scripting
         DynValue GetLiveVariable();
 
         bool UpdateCachedVariable();
+
+
+        event EventHandler<CachedVariableChangedEventArgs> CachedVariableChanged;
     }
 }

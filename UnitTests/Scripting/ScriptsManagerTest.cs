@@ -10,6 +10,7 @@ using NUnit.Framework;
 using ObsGw2Plugin.Extensions;
 using ObsGw2Plugin.MumbleLink;
 using ObsGw2Plugin.Scripting;
+using ObsGw2Plugin.Scripting.Events;
 using ObsGw2Plugin.Scripting.Formatters;
 using ObsGw2Plugin.Scripting.Variables;
 
@@ -43,6 +44,7 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             this.scriptsManager.RegisterScriptFormatter(scriptFormatter);
             return scriptFormatter;
         }
+
 
         [Test]
         public void RegisterScriptVariable()
@@ -103,6 +105,7 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             this.scriptsManager.UseMumbleLinkFile(mumbleLinkFile);
             Assert.AreSame(mumbleLinkFile, this.scriptsManager.MumbleLinkFile);
         }
+
 
         [Test]
         public void GetCachedMumbleLinkResult()
@@ -206,20 +209,6 @@ namespace ObsGw2Plugin.UnitTests.Scripting
         }
 
         [Test]
-        public void GetCachedVariableResult_RunFirstUpdateAndNotify()
-        {
-            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
-            scriptVariable.HasCachedVariable.Returns(false);
-            scriptVariable.UpdateCachedVariable().Returns(true);
-            IScriptVariable scriptVariableHooked = this.RegisterScriptVariableInManager("scriptVariableHooked");
-            scriptVariableHooked.Hooks.Returns(new HashSet<string>() { "scriptVariable" });
-
-            this.scriptsManager.GetCachedResult(scriptVariable.Id);
-            scriptVariable.Received(1).UpdateCachedVariable();
-            scriptVariableHooked.Received(1).UpdateCachedVariable();
-        }
-
-        [Test]
         public void GetCachedFormatterResult()
         {
             IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
@@ -242,27 +231,13 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             scriptFormatterHooked.Received(0).UpdateCachedVariable();
         }
 
-        [Test]
-        public void GetCachedFormatterResult_RunFirstUpdateAndNotify()
-        {
-            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
-            scriptFormatter.HasCachedVariable.Returns(false);
-            scriptFormatter.UpdateCachedVariable().Returns(true);
-            IScriptFormatter scriptFormatterHooked = this.RegisterScriptFormatterInManager("scriptFormatterHooked");
-            scriptFormatterHooked.Hooks.Returns(new HashSet<string>() { "%scriptFormatter%" });
-
-            this.scriptsManager.GetCachedResult("%" + scriptFormatter.Id + "%");
-            scriptFormatter.Received(1).UpdateCachedVariable();
-            scriptFormatterHooked.Received(1).UpdateCachedVariable();
-        }
-
-
         [TestCase("ShouldNotExist", Result = null)]
         [TestCase("%ShouldNotExistAsWell%", Result = null)]
         public object GetNotExistingCachedResult(string inputId)
         {
             return this.scriptsManager.GetCachedResult(inputId);
         }
+
 
         [Test]
         public void NotifySubscribersToUpdate_ScriptVariable()
@@ -275,6 +250,21 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             scriptVariableHook.Id.Returns("scriptVariableHook");
 
             this.scriptsManager.NotifySubscribersToUpdate(scriptVariableHook);
+            scriptVariable.Received(1).UpdateCachedVariable();
+            scriptFormatter.Received(1).UpdateCachedVariable();
+        }
+
+        [Test]
+        public void CachedVariableChangedNotifySubscribersToUpdate_ScriptVariable()
+        {
+            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
+            scriptVariable.Hooks.Returns(new HashSet<string>() { "scriptVariableHook" });
+            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
+            scriptFormatter.Hooks.Returns(new HashSet<string>() { "scriptVariableHook" });
+            IScriptVariable scriptVariableHook = this.RegisterScriptVariableInManager("scriptVariableHook");
+
+            scriptVariableHook.CachedVariableChanged += Raise.Event<EventHandler<CachedVariableChangedEventArgs>>(
+                scriptVariableHook, new CachedVariableChangedEventArgs(1, 2));
             scriptVariable.Received(1).UpdateCachedVariable();
             scriptFormatter.Received(1).UpdateCachedVariable();
         }
@@ -295,6 +285,21 @@ namespace ObsGw2Plugin.UnitTests.Scripting
         }
 
         [Test]
+        public void CachedVariableChangedNotifySubscribersToUpdate_ScriptFormatter()
+        {
+            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
+            scriptVariable.Hooks.Returns(new HashSet<string>() { "%scriptFormatterHook%" });
+            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
+            scriptFormatter.Hooks.Returns(new HashSet<string>() { "%scriptFormatterHook%" });
+            IScriptFormatter scriptFormatterHook = this.RegisterScriptFormatterInManager("scriptFormatterHook");
+
+            scriptFormatterHook.CachedVariableChanged += Raise.Event<EventHandler<CachedVariableChangedEventArgs>>(
+                scriptFormatterHook, new CachedVariableChangedEventArgs(1, 2));
+            scriptVariable.Received(0).UpdateCachedVariable(); // Variable does not have access to the cached variable of a formatter
+            scriptFormatter.Received(1).UpdateCachedVariable();
+        }
+
+        [Test]
         public void NotifySubscribersToUpdateFromMumbleLink()
         {
             MumbleLinkFile mumbleLinkFile = new MumbleLinkFile();
@@ -307,56 +312,6 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             scriptVariable.Received(1).UpdateCachedVariable();
         }
 
-        [Test]
-        public void NotifySubscribersToUpdateRecursiveVariable()
-        {
-            IScriptVariable scriptVariable = this.RegisterScriptVariableInManager("scriptVariable");
-            scriptVariable.Hooks.Returns(new HashSet<string>() { "scriptVariableHook" });
-            scriptVariable.UpdateCachedVariable().Returns(true);
-            IScriptVariable scriptVariable2 = this.RegisterScriptVariableInManager("scriptVariable2");
-            scriptVariable2.Hooks.Returns(new HashSet<string>() { "scriptVariable" });
-
-            IScriptVariable scriptVariableHook = Substitute.For<IScriptVariable>();
-            scriptVariableHook.Id.Returns("scriptVariableHook");
-
-            this.scriptsManager.NotifySubscribersToUpdate(scriptVariableHook);
-            scriptVariable.Received(1).UpdateCachedVariable();
-            scriptVariable2.Received(1).UpdateCachedVariable();
-        }
-
-        [Test]
-        public void NotifySubscribersToUpdateRecursiveVariableToFormatter()
-        {
-            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
-            scriptFormatter.Hooks.Returns(new HashSet<string>() { "scriptVariableHook" });
-            scriptFormatter.UpdateCachedVariable().Returns(true);
-            IScriptFormatter scriptFormatter2 = this.RegisterScriptFormatterInManager("scriptFormatter2");
-            scriptFormatter2.Hooks.Returns(new HashSet<string>() { "%scriptFormatter%" });
-
-            IScriptVariable scriptVariableHook = Substitute.For<IScriptVariable>();
-            scriptVariableHook.Id.Returns("scriptVariableHook");
-
-            this.scriptsManager.NotifySubscribersToUpdate(scriptVariableHook);
-            scriptFormatter.Received(1).UpdateCachedVariable();
-            scriptFormatter2.Received(1).UpdateCachedVariable();
-        }
-
-        [Test]
-        public void NotifySubscribersToUpdateRecursiveFormatter()
-        {
-            IScriptFormatter scriptFormatter = this.RegisterScriptFormatterInManager("scriptFormatter");
-            scriptFormatter.Hooks.Returns(new HashSet<string>() { "%scriptFormatterHook%" });
-            scriptFormatter.UpdateCachedVariable().Returns(true);
-            IScriptFormatter scriptFormatter2 = this.RegisterScriptFormatterInManager("scriptFormatter2");
-            scriptFormatter2.Hooks.Returns(new HashSet<string>() { "%scriptFormatter%" });
-
-            IScriptFormatter scriptFormatterHook = Substitute.For<IScriptFormatter>();
-            scriptFormatterHook.Id.Returns("scriptFormatterHook");
-
-            this.scriptsManager.NotifySubscribersToUpdate(scriptFormatterHook);
-            scriptFormatter.Received(1).UpdateCachedVariable();
-            scriptFormatter2.Received(1).UpdateCachedVariable();
-        }
 
         [Test]
         public void FormatString()

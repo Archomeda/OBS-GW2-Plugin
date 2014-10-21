@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoonSharp.Interpreter;
 using ObsGw2Plugin.Extensions;
 using ObsGw2Plugin.MumbleLink;
+using ObsGw2Plugin.Scripting.Events;
 using ObsGw2Plugin.Scripting.Formatters;
 using ObsGw2Plugin.Scripting.Variables;
 
@@ -35,22 +36,43 @@ namespace ObsGw2Plugin.Scripting
         {
             this.scriptVariables[scriptVariable.Id] = scriptVariable;
             scriptVariable.ScriptsManager = this;
+            scriptVariable.CachedVariableChanged += scriptVariable_CachedVariableChanged;
         }
 
         public virtual void RegisterScriptFormatter(IScriptFormatter scriptFormatter)
         {
             this.scriptFormatters[scriptFormatter.Id] = scriptFormatter;
             scriptFormatter.ScriptsManager = this;
+            scriptFormatter.CachedVariableChanged += scriptFormatter_CachedVariableChanged;
         }
 
         public virtual void UnregisterScriptVariable(string id)
         {
-            this.scriptVariables.Remove(id);
+            if (this.scriptVariables.ContainsKey(id))
+            {
+                this.scriptVariables[id].CachedVariableChanged -= scriptVariable_CachedVariableChanged;
+                this.scriptVariables.Remove(id);
+            }
         }
 
         public virtual void UnregisterScriptFormatter(string id)
         {
-            this.scriptFormatters.Remove(id);
+            if (this.scriptFormatters.ContainsKey(id))
+            {
+                this.scriptFormatters[id].CachedVariableChanged -= scriptFormatter_CachedVariableChanged;
+                this.scriptFormatters.Remove(id);
+            }
+        }
+
+
+        private void scriptVariable_CachedVariableChanged(object sender, CachedVariableChangedEventArgs e)
+        {
+            this.NotifySubscribersToUpdate((IScriptVariable)sender);
+        }
+
+        private void scriptFormatter_CachedVariableChanged(object sender, CachedVariableChangedEventArgs e)
+        {
+            this.NotifySubscribersToUpdate((IScriptFormatter)sender);
         }
 
 
@@ -118,10 +140,7 @@ namespace ObsGw2Plugin.Scripting
                 {
                     IScriptVariable script = this.scriptVariables[id];
                     if (!script.HasCachedVariable)
-                    {
-                        if (script.UpdateCachedVariable())
-                            this.NotifySubscribersToUpdate(script);
-                    }
+                        script.UpdateCachedVariable();
                     return script.CachedVariable;
                 }
             }
@@ -132,10 +151,7 @@ namespace ObsGw2Plugin.Scripting
                 {
                     IScriptFormatter script = this.scriptFormatters[id];
                     if (!script.HasCachedVariable)
-                    {
-                        if (script.UpdateCachedVariable())
-                            this.NotifySubscribersToUpdate(script);
-                    }
+                        script.UpdateCachedVariable();
                     return script.CachedVariable;
                 }
             }
@@ -150,10 +166,7 @@ namespace ObsGw2Plugin.Scripting
                 .Where(kvp => kvp.Value.Hooks != null && kvp.Value.Hooks.Contains(id))
                 .Select(kvp => kvp.Key);
             foreach (string variableId in variableIds)
-            {
-                if (this.scriptVariables[variableId].UpdateCachedVariable())
-                    this.NotifySubscribersToUpdate(this.scriptVariables[variableId]);
-            }
+                this.scriptVariables[variableId].UpdateCachedVariable();
         }
 
         private void NotifyFormatterSubscribersToUpdate(string id)
@@ -162,10 +175,7 @@ namespace ObsGw2Plugin.Scripting
                 .Where(kvp => kvp.Value.Hooks != null && kvp.Value.Hooks.Contains(id))
                 .Select(kvp => kvp.Key));
             foreach (string formatterId in formatterIds)
-            {
-                if (this.scriptFormatters[formatterId].UpdateCachedVariable())
-                    this.NotifySubscribersToUpdate(this.scriptFormatters[formatterId]);
-            }
+                this.scriptFormatters[formatterId].UpdateCachedVariable();
 
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoonSharp.Interpreter;
+using ObsGw2Plugin.Scripting.Events;
 using ObsGw2Plugin.Scripting.Exceptions;
 
 namespace ObsGw2Plugin.Scripting
@@ -84,8 +85,23 @@ namespace ObsGw2Plugin.Scripting
             DynValue oldCachedValue = this.CachedVariable;
             this.CachedVariable = this.GetLiveVariable();
             this.HasCachedVariable = true;
-            return !object.Equals(this.CachedVariable, oldCachedValue);
+            if (!object.Equals(this.CachedVariable, oldCachedValue))
+            {
+                this.OnCachedVariableChanged(new CachedVariableChangedEventArgs(oldCachedValue, this.CachedVariable));
+                return true;
+            }
+            return false;
         }
+
+
+        protected virtual void OnCachedVariableChanged(CachedVariableChangedEventArgs e)
+        {
+            var h = this.CachedVariableChanged;
+            if (h != null)
+                h(this, e);
+        }
+
+        public event EventHandler<CachedVariableChangedEventArgs> CachedVariableChanged;
 
     }
 }
