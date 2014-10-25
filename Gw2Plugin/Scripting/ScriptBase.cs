@@ -77,13 +77,23 @@ namespace ObsGw2Plugin.Scripting
             if (function.Type != DataType.Function)
                 throw new MissingGlobalException(this.LuaScriptFilename, "update");
 
-            return this.LuaScript.Call(function);
+            return this.GetLiveVariable(function.Function);
+        }
+
+        protected virtual DynValue GetLiveVariable(Closure function, params object[] args)
+        {
+            return this.LuaScript.Call(function, args);
         }
 
         public virtual bool UpdateCachedVariable()
         {
+            return this.UpdateCachedVariable(this.GetLiveVariable());
+        }
+
+        protected virtual bool UpdateCachedVariable(DynValue newValue)
+        {
             DynValue oldCachedValue = this.CachedVariable;
-            this.CachedVariable = this.GetLiveVariable();
+            this.CachedVariable = newValue;
             this.HasCachedVariable = true;
             if (!object.Equals(this.CachedVariable, oldCachedValue))
             {
@@ -91,6 +101,11 @@ namespace ObsGw2Plugin.Scripting
                 return true;
             }
             return false;
+        }
+
+        protected virtual bool UpdateCachedVariable(Closure function, params object[] args)
+        {
+            return this.UpdateCachedVariable(this.LuaScript.Call(function, args));
         }
 
 
