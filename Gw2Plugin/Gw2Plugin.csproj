@@ -104,6 +104,10 @@
     <Compile Include="Debug.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DynValueExtensions.cs" />
+    <Compile Include="Extensions\GW2DotNET\EntityContinentExtensions.cs" />
+    <Compile Include="Extensions\GW2DotNET\EntityMapFloorExtensions.cs" />
+    <Compile Include="Extensions\GW2DotNET\EntityMapExtensions.cs" />
+    <Compile Include="Extensions\GW2DotNET\EntityBuildExtensions.cs" />
     <Compile Include="Extensions\XElementExtensions.cs" />
     <Compile Include="Imaging\Animations\IAnimator.cs" />
     <Compile Include="Imaging\Animations\FadeAnimator.cs" />
