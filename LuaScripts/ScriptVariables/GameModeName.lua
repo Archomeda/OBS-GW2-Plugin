@@ -11,7 +11,7 @@ id = "GameModeName"
 hooks = { "MapType" }
 
 local translationTable = {
-	[2] = "PvP",
+	[2] = "PvP",  -- Every PvP map + activities
 	[4] = "PvE",  -- Probably every instance
 	[5] = "PvE",  -- Probably every map
 	[9] = "WvW",  -- Eternal Battlegrounds
@@ -19,7 +19,8 @@ local translationTable = {
 	[11] = "WvW", -- Green Borderlands
 	[12] = "WvW", -- Red Borderlands
 	[14] = "WvW", -- Obsidian Sanctum
-	[15] = "WvW"  -- Edge of the Mists
+	[15] = "WvW", -- Edge of the Mists
+	[16] = "PvE"  -- Dry Top + Mad King's 2014 maps
 }
 
 function update()
