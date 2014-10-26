@@ -19,7 +19,7 @@ namespace ObsGw2Plugin.MumbleLink
         private uint teamColorId = 0;
         private bool isCommander = false;
 
-        private byte[] serverAddress = null;
+        private IPAddress serverAddress = null;
         private uint mapType = 0;
         private uint shardId = 0;
         private uint instance = 0;
@@ -105,7 +105,7 @@ namespace ObsGw2Plugin.MumbleLink
         }
 
 
-        public byte[] ServerAddress
+        public IPAddress ServerAddress
         {
             get { return this.serverAddress; }
             set
@@ -190,8 +190,8 @@ namespace ObsGw2Plugin.MumbleLink
             this.IsCommander = identityJson.commander;
 
             GW2Context gw2Context = (GW2Context)Marshal.PtrToStructure((IntPtr)data.context, typeof(GW2Context));
-            this.ServerAddress = new byte[] { gw2Context.serverAddress.sin_addr.s_b1, gw2Context.serverAddress.sin_addr.s_b2,
-                gw2Context.serverAddress.sin_addr.s_b3, gw2Context.serverAddress.sin_addr.s_b4 };
+            this.ServerAddress = new IPAddress(new byte[] { gw2Context.serverAddress.sin_addr.s_b1, gw2Context.serverAddress.sin_addr.s_b2,
+                gw2Context.serverAddress.sin_addr.s_b3, gw2Context.serverAddress.sin_addr.s_b4 });
             this.MapType = gw2Context.mapType;
             this.ShardId = gw2Context.shardId;
             this.Instance = gw2Context.instance;

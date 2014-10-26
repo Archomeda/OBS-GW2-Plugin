@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using MoonSharp.Interpreter;
@@ -127,7 +128,8 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             uint worldId = 2003;
             uint teamColorId = 55;
             bool isCommander = true;
-            byte[] serverAddress = new byte[] { 11, 22, 33, 44 };
+            byte[] serverAddressBytes = new byte[] { 11, 22, 33, 44 };
+            IPAddress serverAddress = new IPAddress(serverAddressBytes);
             uint mapType = 2;
             uint shardId = 123456789;
             uint instance = 10;
@@ -176,7 +178,7 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             Assert.AreEqual(worldId, this.scriptsManager.GetCachedResult("WorldId"), "WorldId");
             Assert.AreEqual(teamColorId, this.scriptsManager.GetCachedResult("TeamColorId"), "TeamColorId");
             Assert.AreEqual(isCommander, this.scriptsManager.GetCachedResult("IsCommander"), "IsCommander");
-            Assert.AreEqual(serverAddress, this.scriptsManager.GetCachedResult("ServerAddress"), "ServerAddress");
+            Assert.AreEqual(serverAddressBytes, this.scriptsManager.GetCachedResult("ServerAddress"), "ServerAddress");
             Assert.AreEqual(mapType, this.scriptsManager.GetCachedResult("MapType"), "MapType");
             Assert.AreEqual(shardId, this.scriptsManager.GetCachedResult("ShardId"), "ShardId");
             Assert.AreEqual(instance, this.scriptsManager.GetCachedResult("Instance"), "Instance");

@@ -128,7 +128,7 @@ namespace ObsGw2Plugin.Scripting
                         case "WorldId": return gw2MumbleLinkFile.WorldId;
                         case "TeamColorId": return gw2MumbleLinkFile.TeamColorId;
                         case "IsCommander": return gw2MumbleLinkFile.IsCommander;
-                        case "ServerAddress": return gw2MumbleLinkFile.ServerAddress;
+                        case "ServerAddress": return gw2MumbleLinkFile.ServerAddress.GetAddressBytes();
                         case "MapType": return gw2MumbleLinkFile.MapType;
                         case "ShardId": return gw2MumbleLinkFile.ShardId;
                         case "Instance": return gw2MumbleLinkFile.Instance;

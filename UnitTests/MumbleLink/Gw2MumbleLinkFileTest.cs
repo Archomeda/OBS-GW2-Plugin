@@ -30,7 +30,8 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
             uint worldId = 2003;
             uint teamColorId = 55;
             bool isCommander = true;
-            byte[] serverAddress = new byte[] { 11, 22, 33, 44 };
+            byte[] serverAddressBytes = new byte[] { 11, 22, 33, 44 };
+            IPAddress serverAddress = new IPAddress(serverAddressBytes);
             uint mapType = 2;
             uint shardId = 123456789;
             uint instance = 10;
@@ -43,10 +44,10 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
                     sin_family = AddressFamily.InterNetwork,
                     sin_addr = new In_Addr()
                     {
-                        s_b1 = serverAddress[0],
-                        s_b2 = serverAddress[1],
-                        s_b3 = serverAddress[2],
-                        s_b4 = serverAddress[3],
+                        s_b1 = serverAddressBytes[0],
+                        s_b2 = serverAddressBytes[1],
+                        s_b3 = serverAddressBytes[2],
+                        s_b4 = serverAddressBytes[3],
                         //s_w1 = (ushort)((serverAddress[0] << 8) | serverAddress[1]),
                         //s_w2 = (ushort)((serverAddress[2] << 8) | serverAddress[3]),
                         //s_addr = (ulong)((serverAddress[0] << 24) | (serverAddress[1] << 16) | (serverAddress[2] << 8) | serverAddress[3])
@@ -111,7 +112,7 @@ namespace ObsGw2Plugin.UnitTests.MumbleLink
                 new object[] { "WorldId", 2003u },
                 new object[] { "TeamColorId", 55u },
                 new object[] { "IsCommander", true },
-                new object[] { "ServerAddress", new byte[] {11, 22, 33, 44} },
+                new object[] { "ServerAddress", new IPAddress(new byte[] {11, 22, 33, 44}) },
                 new object[] { "MapType", 2u },
                 new object[] { "ShardId", 123456789u },
                 new object[] { "Instance", 10u },
