@@ -2,9 +2,9 @@
 {% for node in navitems %}
     {% if node.group == 'docnavigation' %}
         {% if page.docnavid == node.docnavid %}
-            <li class="active"><a href="{{ node.url }}" class="active">{% if node.navtitle %}{{ node.navtitle }}{% else %}{{ node.title }}{% endif %}</a></li>
+            <li class="active"><a href="{{ node.url | prepend: site.baseurl }}" class="active">{% if node.navtitle %}{{ node.navtitle }}{% else %}{{ node.title }}{% endif %}</a></li>
         {% else %}
-            <li><a href="{{ node.url }}">{% if node.navtitle %}{{ node.navtitle }}{% else %}{{ node.title }}{% endif %}</a></li>
+            <li><a href="{{ node.url | prepend: site.baseurl }}">{% if node.navtitle %}{{ node.navtitle }}{% else %}{{ node.title }}{% endif %}</a></li>
         {% endif %}
     {% endif %}
 {% endfor %}
