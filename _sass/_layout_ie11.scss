@@ -1,0 +1,58 @@
+/*
+Hack the CSS of the pathetic browser that's called Internet Explorer...
+Y U no support flex-direction: column with min-height properly?
+Now I have to write something different, just for you... it feels like the old
+IE6 times again.
+
+IE10 is still partly broken though, but seriously, update to IE11 if you're
+still using it.
+
+http://www.limecanvas.com/css-hacks-targeting-ie-10/
+*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+        width: 100%;
+        display: table;
+        margin: 0;
+        padding-top: $content-padding-top;
+    }
+
+    #content {
+        height: 100%;
+        padding-top: 0;
+    }
+
+    #content .container {
+        min-height: 100%;
+        height: 100%;
+    }
+
+    footer {
+        display: table-row;
+        height: 0;
+    }
+
+    footer .container {
+        padding-top: $footer-padding-top;
+        padding-bottom: $footer-padding-bottom;
+    }
+
+    @media (max-width: 550px) {
+        footer .container {
+            display: table;
+            padding-bottom: 0;
+            padding-top: 0;
+            border-spacing: 0 $footer-spacing;
+        }
+
+        #footer_info, #copyright {
+            display: table-row;
+        }
+    }
+}

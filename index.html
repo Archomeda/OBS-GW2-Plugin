@@ -1,0 +1,87 @@
+---
+layout: default
+permalink: /
+group: navigation
+navid: home
+navtitle: Home
+navweight: 0
+---
+
+<main>
+    <div id="front_logo">
+        <img id="logo" src="{{ site.baseurl }}/assets/img/GW2OBS.png" /><span>
+            Guild Wars 2 meets Open Broadcaster Software
+        </span>
+    </div>
+
+    <div class="slogan">An OBS plugin that enhances your livestream with live Guild Wars 2 data</div>
+
+    <p>This plugin for Open Broadcaster Software allows you to add live Guild Wars 2 data directly to your stream.
+        This includes various information like your character name, profession or your current location.
+        When this information changes, it will automatically be updated on your stream.
+        <a href="{{ site.baseurl }}/about">More...</a>
+    <p>In case the included data parsers are not enough, be sure to check the <a href="{{ site.baseurl }}/documentation">API documentation</a> to see how you can extend it.
+
+    <div class="download_section">
+        <span>
+            <h2>Requirements</h2>
+            <ul class="no-list-style">
+                <li>Windows 32-bit or 64-bit (Vista SP2+, 7 SP1+ or 8)
+                <li><a href="https://obsproject.com/" target="_blank">Open Broadcaster Software</a>
+                <li><a href="http://www.microsoft.com/download/details.aspx?id=30653" target="_blank">.NET Framework 4.5</a>
+                <li><a href="https://obsproject.com/forum/resources/clr-host-plugin.21/" target="_blank">CLR Host Plugin</a>
+            </ul>
+        </span><span>
+            <h2>Downloads</h2>
+            <p>Latest release: <span id="latest_release">retrieving...</span>
+            <ul class="no-list-style list-combine">
+                <li><button id="download_x86" type="button" class="btn btn-download btn-primary" disabled="disabled">No 32-bit available</button>
+                <li><button id="download_x64" type="button" class="btn btn-download btn-primary" disabled="disabled">No 64-bit available</button>
+            </ul>
+            <span id="download_extrainfo"></span>
+            <ul class="no-list-style">
+                <li><a href="{{ site.baseurl }}/installation/">Installation info</a>
+                <li><a href="{{ site.github_url }}/releases" target="_blank">Release notes and older versions</a>
+                <li><a href="{{ site.appveyor_url }}/history" target="_blank">Unstable versions</a>
+            </ul>
+        </span>
+    </div>
+</main>
+
+<script>
+    $(function() {
+        updateReleaseInfo();
+    });
+
+    function updateReleaseInfo() {
+        $("#download_x86, #download_x64").attr("disabled", "disabled");
+
+        $.getJSON("{{ site.github_apiurl }}/releases", function(data) {
+            if ($.isArray(data) && data.length > 0) {
+                var release = data[0];
+                var version = release.tag_name.match(/v((\.?\d+)*)/);
+                if (version.length > 1) {
+                    version = version[1];
+                    var releaseDate = new Date(release.published_at);
+                    $("#latest_release").text(version + " (" + releaseDate.toLocaleDateString() + ")");
+
+                    $.each(release.assets, function(i, asset) {
+                        if (asset.name.indexOf("x86") > -1 || asset.name.indexOf("32-bit") > -1) {
+                            $("#download_x86").text("For OBS 32-bit (x86)").removeAttr("disabled").click(function() {
+                                window.location = asset.browser_download_url;
+                            });
+                        } else if (asset.name.indexOf("x64") > -1 || asset.name.indexOf("64-bit") > -1) {
+                            $("#download_x64").text("For OBS 64-bit (x64)").removeAttr("disabled").click(function() {
+                                window.location = asset.browser_download_url;
+                            });
+                        }
+                    });
+                }
+            } else {
+                $("#latest_release").text("N/A");
+                $("#download_extrainfo").html("<p>It seems that there are no downloads available, check the <a href='{{ site.github_url }}/releases' target='_blank'>releases on GitHub</a> or <a href='{{ site.appveyor_url }}/history' target='_blank'>unstable versions on AppVeyor</a>.");
+            }
+        });
+    }
+
+</script>

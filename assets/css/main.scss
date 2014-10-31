@@ -1,0 +1,40 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+
+$font-family: "Open Sans", Tahoma;
+$font-family-header: Cardo, Georgia;
+$min-width: 240px;
+$content-line-height: 24px;
+
+$text-color: #ddd;
+$background-color: #080808;
+
+$background-image-left: url('../img/BattleForLionsArchBorder.jpg') no-repeat;
+$background-image-right: url('../img/DragonsReach1Border.jpg') no-repeat;
+
+$front-logo: url('../img/GW2OBS.png');
+
+$content-padding-top: 50px;
+
+$footer-background-color: #111;
+$footer-text-color: #555;
+$footer-padding-top: 10px;
+$footer-padding-bottom: 10px;
+$footer-spacing: 5px;
+
+$accent-color: #bf8444;
+
+$code-text-color: #93a1a1;
+$code-background-color: darken($accent-color, 38%);
+
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+@import
+    "base",
+    "layout",
+    "layout_ie11",
+    "syntax-highlighting-solarized-dark"
+;

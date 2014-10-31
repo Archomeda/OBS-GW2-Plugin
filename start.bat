@@ -1,0 +1,5 @@
+@ECHO OFF
+SETLOCAL
+PATH=C:\Python27;%PATH%
+jekyll serve
+ENDLOCAL

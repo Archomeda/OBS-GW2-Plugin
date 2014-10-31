@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<div class="docpage">
+
+    <header>
+        <h1>{{ page.title }}</h1>
+    </header>
+
+    <main>
+
+        <div class="doccontent">
+            {{ content }}
+        </div>
+
+        <div class="docnavbar" data-spy="affix" data-offset-top="60">
+            <ul class="no-list-style">
+                {% include docnav_list.html %}
+            </ul>
+        </div>
+
+    </main>
+
+</div>

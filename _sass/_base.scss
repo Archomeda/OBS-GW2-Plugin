@@ -1,0 +1,148 @@
+body {
+    background: $background-color;
+    color: $text-color;
+    font-family: $font-family;
+}
+
+@media (min-width: 768px) {
+    #content .left_container, #content .right_container {
+        z-index: 0;
+        max-width: 800px;
+    }
+
+    #content .left_container {
+        padding-right: 100px;
+        margin-right: -100px;
+        padding-top: $content-padding-top;
+        margin-top: -$content-padding-top;
+        background: $background-image-left right top;
+    }
+
+    #content .right_container {
+        padding-left: 100px;
+        margin-left: -100px;
+        padding-top: $content-padding-top;
+        margin-top: -$content-padding-top;
+        background: $background-image-right left top;
+    }
+}
+
+#content .container {
+    z-index: 1;
+
+    h1, h2, h3 {
+        font-family: $font-family-header;
+    }
+
+    p, li {
+        line-height: $content-line-height;
+    }
+
+    li > p {
+        line-height: normal;
+    }
+}
+
+#front_logo span {
+    font-family: $font-family-header;
+    font-size: 48px;
+}
+
+.slogan {
+    font-family: $font-family-header;
+    font-size: 22px;
+    font-style: italic;
+    text-align: center;
+}
+
+@media (max-width: 991px) {
+    #front_logo > span {
+        font-size: 32px;
+    }
+
+    .slogan {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    #front_logo > span {
+        font-size: 26px;
+    }
+
+    .slogan {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 550px) {
+    #front_logo > span {
+        font-size: 22px;
+    }
+
+    .slogan {
+        font-size: 16px;
+    }
+}
+
+footer {
+    background: $footer-background-color;
+    color: $footer-text-color;
+}
+
+#copyright {
+    font-size:12px;
+}
+
+
+.docnavbar li.active a {
+    font-weight: bold;
+    color: $text-color;
+}
+
+.docnavbar li.active a:hover {
+    text-decoration: none;
+}
+
+.code-type {
+    font-size: smaller;
+}
+
+.code-description {
+    display: block;
+    padding-bottom: 5px;
+    margin-left: 30px;
+}
+
+pre, code {
+    font-size: 14px;
+    background-color: $code-background-color;
+    color: $code-text-color;
+}
+
+code {
+    background-color: $code-background-color;
+}
+
+pre {
+    overflow-x: auto;
+}
+
+
+a {
+    color: $accent-color;
+}
+
+a:hover, a:focus {
+    color: lighten($accent-color, 30%);
+}
+
+.icon {
+    > svg {
+        display: inline-block;
+        vertical-align: middle;
+        path {
+            fill: #aaa;
+        }
+    }
+}

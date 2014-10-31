@@ -1,0 +1,14 @@
+title: Guild Wars 2 Plugin for Open Broadcaster Software
+shorttitle: GW2 for OBS
+description: A plugin for Open Broadcaster Software that adds various Guild Wars 2 related features.
+baseurl: ""
+url: "http://Archomeda.github.io/OBS-GW2-Plugin"
+
+github_url: "https://github.com/Archomeda/OBS-GW2-Plugin"
+github_apiurl: "https://api.github.com/repos/Archomeda/OBS-GW2-Plugin"
+
+appveyor_url: "https://ci.appveyor.com/project/Archomeda/obs-gw2-plugin"
+appveyor_apiurl: "https://ci.appveyor.com/api/projects/Archomeda/obs-gw2-plugin"
+
+exclude: [start.bat]
+markdown: kramdown
