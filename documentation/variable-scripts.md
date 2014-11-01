@@ -15,7 +15,12 @@ Variable scripts are Lua scripts that are located in the `ScriptVariables` direc
 
 
 ## File structure
-Every variable script has to have a certain list of globals defined, otherwise the script will not load. Every global is required, unless otherwise specified.
+Every variable script has to have a certain list of globals defined, otherwise the script will not load.
+
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+Every global is required, unless otherwise specified.
+</span>
 
 {% include doc_definition/global.html name="id" type="string" %}
 The id that is used to uniquely identify a script. This id is also used to refer from other scripts in e.g. `hooks` and `getvar()`.

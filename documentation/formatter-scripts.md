@@ -9,14 +9,23 @@ navweight: 2
 ---
 {% include urls.md %}
 
-As noted in the [introduction][api-introduction], formatter scripts are used to format data before outputting it to the livestream. A formatter script will replace a certain keyword (here `id`) that is surround with percent signs. Unless specified otherwise, you need to refer to formatter scripts by its id surrounded with percent signs (e.g. `%formatter%` instead of just `formatter`). This is done to provide consistency with the configuration window of the plugin.
-
+As noted in the [introduction][api-introduction], formatter scripts are used to format data before outputting it to the livestream. A formatter script will replace a certain keyword (here `id`) that is surround with percent signs.
 
 Formatter scripts are Lua scripts that are located in the `ScriptFormatters` directory, both built-in and custom created. Go to the [GitHub repository][githubrepo-apiformatterscripts]{:target="_blank"} to view the built-in and example formatter scripts.
 
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+Unless specified otherwise, you need to refer to formatter scripts by its id surrounded with percent signs (e.g. `%formatter%` instead of just `formatter`). This is done to provide consistency with the configuration window of the plugin.
+</span>
+
 
 ## File structure
-Every formatter script has to have a certain list of globals defined, otherwise the script will not load. Every global is required, unless specified otherwise.
+Every formatter script has to have a certain list of globals defined, otherwise the script will not load.
+
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+Every global is required, unless otherwise specified.
+</span>
 
 {% include doc_definition/global.html name="id" type="string" %}
 The id that is used to uniquely identify a script. This id is also used to refer from other scripts in e.g. `hooks` and `getvar()`.

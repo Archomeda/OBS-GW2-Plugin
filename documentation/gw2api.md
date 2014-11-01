@@ -10,11 +10,17 @@ navweight: 4
 ---
 {% include urls.md %}
 
-In order to get more useful information from the [built-in variables][api-builtinvariables], you can request data from the [official Guild Wars 2 API][gw2api]{:target="_blank"}. Only useful API endpoints are supported. This means that getting the current price of an item is not supported, because it's not very usable within a livestream.
+In order to get more useful information from the [built-in variables][api-builtinvariables], you can request data from the [official Guild Wars 2 API][gw2api]{:target="_blank"}. Only useful API endpoints are supported. This means that e.g. getting the current price of an item is not supported, because it's not very usable within a livestream. The functions can be called from the global `gw2api` which is only available to [variable scripts][api-variablescripts]. Almost every return value is a table that is formatted the same way as the API. There are a few exceptions which you can find at the end of this page.
 
-The functions can be called from the global `gw2api` which is only available to [variable scripts][api-variablescripts]. Almost every return value is a table that is formatted the same way as the API. There are a few exceptions which you can find at the end of this page.
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+All functions are asynchronous, which means that you need to give a function as callback parameter that will be called when the API request has been completed. In order to update the cached value of the variable script, return the updated value in this function.
+</span>
 
-Please note that all these functions are asynchronous, which means that you need to give a function as callback parameter that will be called when the API request has been completed. In order to update the cached value of the variable script, return the updated value in this function.
+<span class="infoblock infoblock-warning">
+<span class="label label-warning">Important</span><br>
+Cache your data! Every time you request data, a new request is sent to the Guild Wars 2 API server. This means that if you expect that certain data does not change frequently, you need to cache this data yourself by using the `localvar(id, value)` function. If you do not do this, it's possible that you request the same data over and over again in a short amount of time. You can use the `timestamp()` function or the current build to verify the validity of your cached data.
+</span>
 
 
 ## Location

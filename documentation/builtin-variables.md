@@ -9,9 +9,12 @@ navweight: 3
 ---
 {% include urls.md %}
 
-The plugin is able to read the [Mumble Link API][mumblelinkapi]{:target="_blank"} that Guild Wars 2 [officially supports][gw2mumble]{:target="_blank"}. This allows you to read live data from the stuff you are currently doing. Without this ability, this plugin would not have existed.
+The plugin is able to read the [Mumble Link API][mumblelinkapi]{:target="_blank"} that Guild Wars 2 [officially supports][gw2mumble]{:target="_blank"}. This allows you to read live data from the stuff you are currently doing. Without this ability, this plugin would not have existed. You can access these variables in both [variable][api-variablescripts] and [formatter scripts][api-formatterscripts] by calling `getvar(id)`.
 
-Below is a list of the variables that you can access in both [variable][api-variablescripts] and [formatter scripts][api-formatterscripts] by calling `getvar(id)`. Please note that when the Mumble Link is not available, some variables can be `nil` or arbitrary.
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+When the Mumble Link is not available, some variables can be `nil` or arbitrary.
+</span>
 
 
 ## Character info

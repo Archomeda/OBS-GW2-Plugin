@@ -146,3 +146,43 @@ a:hover, a:focus {
         }
     }
 }
+
+.infoblock {
+    display: block;
+    border-left-width: 2px;
+    border-left-style: solid;
+    margin-left: 1px;
+    padding-left: 5px;
+}
+
+.infoblock-info {
+    border-left-color: darken(#5BC0DE, 15);
+}
+
+.infoblock-warning {
+    border-left-color: darken(#B07D2E, 5);
+}
+
+.infoblock-danger {
+    border-left-color: darken(#D9534F, 15);
+}
+
+.label-primary {
+    background-color: darken(#428BCA, 15);
+}
+
+.label-info {
+    background-color: darken(#5BC0DE, 15);
+}
+
+.label-success {
+    background-color: darken(#5CB85C, 15);
+}
+
+.label-warning {
+    background-color: darken(#B07D2E, 5);
+}
+
+.label-danger {
+    background-color: darken(#D9534F, 15);
+}

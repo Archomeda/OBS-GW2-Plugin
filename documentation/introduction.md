@@ -9,9 +9,15 @@ navweight: 0
 ---
 {% include urls.md %}
 
-<span class="label label-danger">Beware!</span> **The API is still in active development. It may change a couple of times before the final version of the plugin has been released.**
+<span class="infoblock infoblock-danger">
+<span class="label label-danger">Beware!</span><br>
+The API is still in active development. It may change a couple of times before the final version of the plugin has been released.
+</span>
 
-*Please note that this documentation assumes that you have basic knowledge of the [Lua programming language][lua]{:target="_blank"}.*
+<span class="infoblock infoblock-info">
+<span class="label label-info">Note</span><br>
+This documentation assumes that you have basic knowledge of the [Lua programming language][lua]{:target="_blank"}
+</span>
 
 Lua is the programming language that used in API part of the plugin. Because the used interpreter is a third party library called Moon#, the supported functions may differ somewhat. Please go to the [website of Moon#][moonsharp]{:target="_blank"} for more information about this.
 
