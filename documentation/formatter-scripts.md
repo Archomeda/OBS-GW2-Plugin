@@ -68,3 +68,8 @@ Gets the cached value of another formatter script.<br>
 
 {% include doc_definition/global.html name="timestamp()" type="function" %}
 Gets the current Unix timestamp. Since Lua has no built-in support for getting the current time, this has been wrapped in C#. The returned value might include both whole and fractional seconds.
+
+{% include doc_definition/global.html name="getdate(timestamp)" type="function" %}
+Gets a date as a table. This makes working with dates in scripts a lot easier.<br>
+**timestamp:** The Unix timestamp.<br>
+**Returns** a table with the following keys: `year`, `month`, `day`, `day_of_week`, `day_of_year`, `hour`, `minute`, `second`, `millisecond`. Note that `day_of_week` is a number from 0 to 6 (Sunday to Saturday).
