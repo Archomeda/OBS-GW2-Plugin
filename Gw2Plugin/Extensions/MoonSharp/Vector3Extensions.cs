@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MoonSharp.Interpreter;
 using ObsGw2Plugin.MumbleLink;
 
-namespace ObsGw2Plugin.Extensions
+namespace ObsGw2Plugin.Extensions.MoonSharp
 {
-    public static class DynValueExtensions
+    public static class Vector3Extensions
     {
         public static IDictionary<string, double> ToDictionary(this Vector3 vector3)
         {

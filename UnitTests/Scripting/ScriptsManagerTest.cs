@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MoonSharp.Interpreter;
 using NSubstitute;
 using NUnit.Framework;
-using ObsGw2Plugin.Extensions;
+using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.MumbleLink;
 using ObsGw2Plugin.Scripting;
 using ObsGw2Plugin.Scripting.Events;

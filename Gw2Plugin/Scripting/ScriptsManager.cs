@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MoonSharp.Interpreter;
-using ObsGw2Plugin.Extensions;
+using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.MumbleLink;
 using ObsGw2Plugin.Scripting.Events;
 using ObsGw2Plugin.Scripting.Formatters;

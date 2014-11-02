@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using NUnit.Framework;
-using ObsGw2Plugin.Extensions;
+using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.MumbleLink;
 
 namespace ObsGw2Plugin.UnitTests.Extensions

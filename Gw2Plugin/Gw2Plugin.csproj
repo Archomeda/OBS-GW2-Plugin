@@ -103,7 +103,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\DynValueExtensions.cs" />
+    <Compile Include="Extensions\MoonSharp\Vector3Extensions.cs" />
     <Compile Include="Extensions\GW2DotNET\EntityContinentExtensions.cs" />
     <Compile Include="Extensions\GW2DotNET\EntityMapFloorExtensions.cs" />
     <Compile Include="Extensions\GW2DotNET\EntityMapExtensions.cs" />
