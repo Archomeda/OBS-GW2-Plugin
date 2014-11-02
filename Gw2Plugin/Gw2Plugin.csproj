@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr4.Runtime.net35">
-      <HintPath>..\packages\MoonSharp.0.5.5\lib\Antlr4.Runtime.net35.dll</HintPath>
+      <HintPath>..\packages\MoonSharp.0.6.0\lib\Antlr4.Runtime.net35.dll</HintPath>
     </Reference>
     <Reference Include="CLRHost.Interop, Version=1.0.5363.26812, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -57,7 +57,7 @@
       <HintPath>..\packages\GW2.NET.0.9.11.0\lib\net40\GW2.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter">
-      <HintPath>..\packages\MoonSharp.0.5.5\lib\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\packages\MoonSharp.0.6.0\lib\MoonSharp.Interpreter.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

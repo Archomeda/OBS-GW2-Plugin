@@ -160,7 +160,7 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             this.script.InitScript(filename);
             this.script.UpdateCachedVariable();
             var func = (CallbackFunction)this.script.LuaScript.Globals["getcurrent"];
-            Assert.AreEqual(variable, func.Invoke(null, null));
+            Assert.AreEqual(variable, func.Invoke(null, new List<DynValue>()));
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             this.script.InitScript(filename);
             var func = (CallbackFunction)this.script.LuaScript.Globals["timestamp"];
             double secondsStart = (DateTime.Now - unixStart).TotalSeconds;
-            DynValue secondsReal = func.Invoke(null, null);
+            DynValue secondsReal = func.Invoke(null, new List<DynValue>());
             double secondsEnd = (DateTime.Now - unixStart).TotalSeconds;
             Assert.IsTrue(secondsStart <= secondsReal.Number && secondsReal.Number <= secondsEnd);
         }
