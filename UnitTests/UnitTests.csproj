@@ -89,10 +89,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\GW2DotNET\EntityBuildExtensionsTest.cs" />
-    <Compile Include="Extensions\GW2DotNET\EntityMapFloorExtensionsTest.cs" />
-    <Compile Include="Extensions\GW2DotNET\EntityContinentExtensionsTest.cs" />
-    <Compile Include="Extensions\GW2DotNET\EntityMapExtensionsTest.cs" />
+    <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityBuildExtensionsTest.cs" />
+    <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityMapFloorExtensionsTest.cs" />
+    <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityContinentExtensionsTest.cs" />
+    <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityMapExtensionsTest.cs" />
     <Compile Include="Extensions\XElementExtensionsTest.cs" />
     <Compile Include="Extensions\MoonSharp\Vector3ExensionsTest.cs" />
     <Compile Include="Extensions\ColorExtensionsTest.cs" />

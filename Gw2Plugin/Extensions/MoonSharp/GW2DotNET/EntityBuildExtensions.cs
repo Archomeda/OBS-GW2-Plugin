@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GW2DotNET.Entities.Builds;
 
-namespace ObsGw2Plugin.Extensions.GW2DotNET
+namespace ObsGw2Plugin.Extensions.MoonSharp.GW2DotNET
 {
     public static class EntityBuildExtensions
     {

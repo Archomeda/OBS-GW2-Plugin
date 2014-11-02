@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GW2DotNET;
 using MoonSharp.Interpreter;
 using ObsGw2Plugin.Scripting.Exceptions;
-using ObsGw2Plugin.Extensions.GW2DotNET;
+using ObsGw2Plugin.Extensions.MoonSharp.GW2DotNET;
 
 namespace ObsGw2Plugin.Scripting.Variables
 {

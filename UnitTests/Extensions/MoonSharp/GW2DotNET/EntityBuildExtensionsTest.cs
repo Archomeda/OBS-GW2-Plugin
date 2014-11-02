@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using GW2DotNET.Entities.Builds;
 using NUnit.Framework;
-using ObsGw2Plugin.Extensions.GW2DotNET;
+using ObsGw2Plugin.Extensions.MoonSharp.GW2DotNET;
 
-namespace ObsGw2Plugin.UnitTests.Extensions.GW2DotNET
+namespace ObsGw2Plugin.UnitTests.Extensions.MoonSharp.GW2DotNET
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]
