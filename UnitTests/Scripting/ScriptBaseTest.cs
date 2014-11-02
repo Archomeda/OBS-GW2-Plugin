@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoonSharp.Interpreter;
 using NSubstitute;
 using NUnit.Framework;
+using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.Scripting;
 using ObsGw2Plugin.Scripting.Exceptions;
 
@@ -190,6 +191,20 @@ namespace ObsGw2Plugin.UnitTests.Scripting
             DynValue secondsReal = func.Invoke(null, new List<DynValue>());
             double secondsEnd = (DateTime.Now - unixStart).TotalSeconds;
             Assert.IsTrue(secondsStart <= secondsReal.Number && secondsReal.Number <= secondsEnd);
+        }
+
+        [Test]
+        public void GlobalCSharpGetDate()
+        {
+            string filename = this.GetScriptFilename("TestDummy");
+            DateTime unixStart = new DateTime(1970, 1, 1);
+
+            this.script.InitScript(filename);
+            var func = (CallbackFunction)this.script.LuaScript.Globals["getdate"];
+            DateTime dateTime = new DateTime(2000, 2, 1, 20, 30, 15, 500);
+            var expected = dateTime.ToDictionary();
+            var actual = func.Invoke(null, new List<DynValue>() { DynValue.NewNumber((dateTime - unixStart).TotalSeconds) });
+            CollectionAssert.AreEquivalent(expected, actual.Table.Pairs.Select(p => new KeyValuePair<string, int>(p.Key.String, (int)p.Value.Number)));
         }
     }
 }

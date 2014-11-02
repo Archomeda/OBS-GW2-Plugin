@@ -89,6 +89,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MoonSharp\DateTimeExtensionsTest.cs" />
     <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityBuildExtensionsTest.cs" />
     <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityMapFloorExtensionsTest.cs" />
     <Compile Include="Extensions\MoonSharp\GW2DotNET\EntityContinentExtensionsTest.cs" />

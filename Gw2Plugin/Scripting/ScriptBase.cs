@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoonSharp.Interpreter;
+using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.Scripting.Events;
 using ObsGw2Plugin.Scripting.Exceptions;
 
@@ -55,7 +56,9 @@ namespace ObsGw2Plugin.Scripting
             });
             this.LuaScript.Globals["getcurrent"] = new Func<DynValue>(() => this.CachedVariable);
             this.LuaScript.Globals["getvar"] = new Func<string, object>(id => this.ScriptsManager.GetCachedResult(id));
+
             this.LuaScript.Globals["timestamp"] = new Func<double>(() => (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds);
+            this.LuaScript.Globals["getdate"] = new Func<double, object>(timestamp => (new DateTime(1970, 1, 1) + TimeSpan.FromSeconds(timestamp)).ToDictionary());
         }
 
         protected virtual void InitObjectProperties()
