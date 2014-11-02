@@ -9,7 +9,7 @@ using NUnit.Framework;
 using ObsGw2Plugin.Extensions.MoonSharp;
 using ObsGw2Plugin.MumbleLink;
 
-namespace ObsGw2Plugin.UnitTests.Extensions
+namespace ObsGw2Plugin.UnitTests.Extensions.MoonSharp
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]
