@@ -17,7 +17,8 @@ local translationTable = {
 	[5] = "Thief",
 	[6] = "Elementalist",
 	[7] = "Mesmer",
-	[8] = "Necromancer"
+	[8] = "Necromancer",
+	[9] = 'Revenant'
 }
 
 function update()
